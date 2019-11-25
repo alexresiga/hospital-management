@@ -8,10 +8,10 @@ export default class User {
   username: string;
   firstName: string;
   lastName: string;
-  permissions: UserPermissions[];
+  roles: UserRole[];
 }
 
-export enum UserPermissions {
+export enum UserRole {
   ADMIN = 'admin',
   DOCTOR = 'doctor',
   ASSISTENT = 'assistent',
