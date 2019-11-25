@@ -1,0 +1,29 @@
+<div id="home-page" class = "container-fluid">
+    <div class = "row">
+        <div class = "col-12">
+            <h1 class="text-center my-4">Hospital Management System</h1>
+        </div>
+    </div>
+    <div class = "row">
+        <div class = "d-none d-md-block col-md-6 col-lg-4 offset-lg-2">
+            <img src="/assets/img/5847.jpg" class="img-thumbnail hospital-image" alt="Responsive image">
+        </div>
+        <div id = "home-forms" class = "col-12 col-md-6 col-lg-4 border">
+            <ngb-tabset type="tabs text-center" justify="center">
+                <ngb-tab title="Log in">
+                    <ng-template ngbTabContent>
+                        <h5 class="mt-2 text-center">Log in form</h5>
+                    </ng-template>
+                </ngb-tab>
+                <ngb-tab>
+                    <ng-template class="text-info" ngbTabTitle>Sign up</ng-template>
+                    
+                    <ng-template ngbTabContent>
+                        <h5 class="mt-2 text-center">Create a user account</h5>
+                        <app-signup-form></app-signup-form>
+                    </ng-template>
+                </ngb-tab>
+              </ngb-tabset>
+        </div>
+    </div>
+</div>
