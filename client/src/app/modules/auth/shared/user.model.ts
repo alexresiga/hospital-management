@@ -3,11 +3,17 @@ export class UserLoginInput {
   password: string;
 }
 
+export class UserSignupInput {
+  fullName: string;
+  email: string;
+  password: string;
+}
+
 export default class User {
   id: number;
   username: string;
-  firstName: string;
-  lastName: string;
+  fullName: string;
+  email: string;
   roles: UserRole[];
 }
 

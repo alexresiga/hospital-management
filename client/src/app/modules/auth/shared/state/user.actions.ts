@@ -1,9 +1,10 @@
 import { Action } from '@ngrx/store';
-import User, { UserLoginInput } from '../user.model';
+import User, { UserLoginInput, UserSignupInput } from '../user.model';
 
 export enum UserActionsTypes {
   GET_CURRENT_USER = '[USER] Get current',
   GET_CURRENT_USER_SUCCESS = '[USER] Get current success',
+  SIGNUP_USER = '[USER] SIGNUP',
   LOGIN_USER = '[USER] LOGIN',
   LOGIN_USER_SUCCESS = '[USER] LOGIN SUCCESS',
   LOGOUT_USER = '[USER] LOGOUT',
@@ -26,6 +27,13 @@ export class LoginUser implements Action {
   public readonly type = UserActionsTypes.LOGIN_USER;
 
   constructor(public payload: UserLoginInput) {
+  }
+}
+
+export class SignupUser implements Action {
+  public readonly type = UserActionsTypes.SIGNUP_USER;
+
+  constructor(public payload: UserSignupInput) {
   }
 }
 
