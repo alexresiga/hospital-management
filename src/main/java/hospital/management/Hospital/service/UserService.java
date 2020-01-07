@@ -1,6 +1,4 @@
 package hospital.management.Hospital.service;
-
-import hospital.management.Hospital.model.Role;
 import hospital.management.Hospital.model.User;
 import hospital.management.Hospital.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;

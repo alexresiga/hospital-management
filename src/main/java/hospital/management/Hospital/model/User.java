@@ -2,10 +2,7 @@ package hospital.management.Hospital.model;
 
 
 import lombok.*;
-import org.hibernate.validator.constraints.UniqueElements;
-
 import javax.persistence.*;
-import java.io.Serializable;
 
 @Entity
 @AllArgsConstructor
@@ -13,17 +10,16 @@ import java.io.Serializable;
 @Data
 @Builder
 @Table(name = "users")
-public class User implements Serializable {
+public class User {
 
     @Id
-    @Column(name = "username", updatable = false, nullable = false)
     private String username;
 
     private String password;
 
     private String full_name;
 
-    @UniqueElements
+    @Column(unique = true)
     private String email;
 
     private String phone_number;
