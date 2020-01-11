@@ -17,11 +17,7 @@ public class UserController {
     @RequestMapping(value = "/api/user/{username}", method = RequestMethod.GET)
     UserDto getUser(@PathVariable String username) {
 
-        User user = userService.getUser(username);
-//        if(user.getPassword().equals(user.getPassword()))
-//            return UserConverter.convertUserToDTO(user);
-        return UserConverter.convertUserToDTO(user);
-
+         return userService.getUserByUsername(username);
     }
 
 }

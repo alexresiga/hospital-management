@@ -1,4 +1,7 @@
 package hospital.management.Hospital.service;
+
+import hospital.management.Hospital.converter.UserConverter;
+import hospital.management.Hospital.dto.UserDto;
 import hospital.management.Hospital.model.User;
 import hospital.management.Hospital.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -6,6 +9,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -23,18 +27,24 @@ public class UserService {
     }
 
     @Transactional
-    public void deleteUser(String username) {
-        userRepository.deleteById(username);
+    public void deleteUser(Integer id) {
+        userRepository.deleteById(id);
     }
 
     @Transactional
-    public User getUser(String username) {
-        return userRepository.findById(username).isPresent() ? userRepository.findById(username).get() : null;
+    public User getUser(Integer id) {
+        return userRepository.findById(id).isPresent() ? userRepository.findById(id).get() : null;
     }
 
     @Transactional
     public void changePassword(User user) {
-        userRepository.findById(user.getUsername()).ifPresent(user_found -> user_found.setPassword(user.getPassword()));
+        userRepository.findById(user.getId()).ifPresent(user_found -> user_found.setPassword(user.getPassword()));
+    }
+
+    @Transactional
+    public UserDto getUserByUsername(String username) {
+        User user = userRepository.findUserByUsername(username).isPresent() ? userRepository.findUserByUsername(username).get() : null;
+        return user != null ? UserConverter.convertUserToDTO(user) : null;
     }
 
 }
