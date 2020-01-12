@@ -1,0 +1,56 @@
+<nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light">
+	<a class="navbar-brand" href="/dashboard">
+        <h5>Hospital Management System</h5>
+    </a>
+    <button 
+        class="navbar-toggler" type="button" aria-expanded="false" aria-label="Toggle navigation"
+        (click)="toggleNavbar()"
+    >
+	  <span class="navbar-toggler-icon"></span>
+	</button>
+  
+	<div class="collapse navbar-collapse" [ngClass]="{'show': isNavbarOpened}">
+	  <ul class="navbar-nav mr-auto">
+		<li class="nav-item">
+            <a class="nav-link" href="/appointments">
+                <i class="material-icons">meeting_room</i>
+                Appointments
+            </a>
+		</li>
+		<li class="nav-item">
+            <a class="nav-link" href="/prescriptions">
+                <i class="material-icons">
+                    list_alt
+                </i>
+                Prescriptions
+            </a>
+		</li>
+		<li ngbDropdown class="nav-item d-inline-block my-2 my-lg-auto">
+            <button class="btn btn-outline-dark" id="adminDropdownMenu" ngbDropdownToggle>Admin</button>
+            <div ngbDropdownMenu aria-labelledby="adminDropdownMenu">
+                <a href="/users">
+                    <button ngbDropdownItem>Users</button>
+                </a>
+                <a href="/drugs">
+                    <button ngbDropdownItem>Drugs</button>
+                </a>
+                <a href="/departmentsAndRooms">
+                    <button ngbDropdownItem>Departments and Rooms</button>
+                </a>
+            </div>
+        </li>
+        
+        <li ngbDropdown class="nav-item d-inline-block ml-lg-5 my-lg-auto">
+            <button class="btn btn-outline-dark" id="userDropdownMenu" ngbDropdownToggle>Hello, Username!</button>
+            <div ngbDropdownMenu aria-labelledby="userDropdownMenu">
+                <button class="btn-primary btn-sm" ngbDropdownItem>
+                    <i class="material-icons">
+                        exit_to_app
+                    </i>
+                    Log out
+                </button>
+            </div>
+		</li>
+	  </ul>
+	</div>
+  </nav>
