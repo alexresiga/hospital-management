@@ -44,5 +44,7 @@ public class Seeder implements CommandLineRunner {
                     "User fullname", "user@yahoo.com", "0745", user));
         }
 
+
+
     }
 }
