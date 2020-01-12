@@ -8,6 +8,7 @@ import { StoreModule } from '@ngrx/store';
 import { reducers, metaReducers } from './shared/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
+import { DashboardModule } from './modules/dashboard/dashboard.module';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import { environment } from '../environments/environment';
     BrowserModule,
     AppRoutingModule,
     HomeModule,
+    DashboardModule,
     StoreModule.forRoot(reducers, {
       metaReducers,
       runtimeChecks: {
