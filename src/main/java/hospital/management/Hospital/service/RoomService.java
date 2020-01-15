@@ -3,6 +3,7 @@ package hospital.management.Hospital.service;
 import hospital.management.Hospital.converter.RoomConverter;
 import hospital.management.Hospital.dto.RoomDto;
 import hospital.management.Hospital.exceptions.NotFoundException;
+import hospital.management.Hospital.model.Department;
 import hospital.management.Hospital.model.Room;
 import hospital.management.Hospital.repository.DepartmentRepository;
 import hospital.management.Hospital.repository.RoomRepository;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -35,8 +37,17 @@ public class RoomService {
 
     @Transactional
     public RoomDto createRoom(RoomDto roomDto) {
-        Room room = new Room(null, departmentRepository.findById(roomDto.getDepartment()).orElse(null), roomDto.getName(), roomDto.getLevel());
-        return RoomConverter.convertRoomToDTO(room);
+        Department department = departmentRepository.findById(roomDto.getDepartment()).orElse(null);
+
+        Room room = new Room();
+        room.setName(roomDto.getName());
+        room.setLevel(roomDto.getLevel());
+        room.setDepartment(department);
+
+//        department.add_room(room);
+//
+//        departmentRepository.save(department);
+        return RoomConverter.convertRoomToDTO(roomRepository.save(room));
     }
 
     @Transactional

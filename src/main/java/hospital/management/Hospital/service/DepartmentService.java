@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -37,16 +38,15 @@ public class DepartmentService {
 
     @Transactional
     public DepartmentDto createDepartment(DepartmentDto departmentDto) {
-        Set<Room> rooms = departmentDto.getRooms().stream().map(room -> roomRepository.findById(room).orElse(null)).collect(Collectors.toSet());
-        Department department = new Department(null, rooms, departmentDto.getName());
-        return DepartmentConverter.convertDepartmentToDTO(department);
+        Department department = new Department(null, new HashSet<>(), departmentDto.getName());
+        return DepartmentConverter.convertDepartmentToDTO(departmentRepository.save(department));
     }
 
     @Transactional
     public DepartmentDto updateDepartment(Integer id, DepartmentDto departmentDto) {
         Department department = departmentRepository.findById(id).orElseThrow(NotFoundException::new);
         Set<Room> rooms = departmentDto.getRooms().stream().map(room -> roomRepository.findById(room).orElse(null)).collect(Collectors.toSet());
-        department.setName(department.getName());
+        department.setName(departmentDto.getName());
         department.setRooms(rooms);
 
         departmentRepository.save(department);
