@@ -38,6 +38,16 @@ public class AppointmentService {
     }
 
     @Transactional
+    public AppointmentDto updateAppointmentStatus(Integer id, String status) {
+      Appointment appointment = appointmentRepository.findById(id).orElse(null);
+      if (appointment != null) {
+        appointment.setApproved(status);
+        appointmentRepository.save(appointment);
+      }
+      return getAppointmentById(id);
+    }
+
+    @Transactional
     public List<AppointmentDto> getAppointmentsOfaPatient(Integer patient_id) {
         return appointmentRepository.findAll().stream()
                 .filter(appointment -> appointment.getPatient().getId().equals(patient_id))
