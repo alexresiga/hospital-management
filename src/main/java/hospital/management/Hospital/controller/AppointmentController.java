@@ -23,13 +23,13 @@ public class AppointmentController {
         return appointmentService.getAllAppointments();
     }
 
-    @GetMapping("/api/appointment/{patient_id}")
+    @GetMapping("/api/appointment/patient/{patient_id}")
     public List<AppointmentDto> getPatientAppointments(@PathVariable("patient_id") Integer id)
     {
         return appointmentService.getAppointmentsOfaPatient(id);
     }
 
-    @GetMapping("/api/appointment/{doctor_id}")
+    @GetMapping("/api/appointment/doctor/{doctor_id}")
     public List<AppointmentDto> getDoctorAppointments(@PathVariable("doctor_id") Integer id)
     {
         return appointmentService.getAppointmentsOfaDoctor(id);
