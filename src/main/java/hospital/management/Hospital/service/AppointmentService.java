@@ -16,7 +16,6 @@ import java.util.stream.Collectors;
 
 @Service
 public class AppointmentService {
-
     @Autowired
     private AppointmentRepository appointmentRepository;
 
@@ -32,7 +31,6 @@ public class AppointmentService {
     @Autowired
     private DoctorInformationRepository doctorInformationRepository;
 
-
     @Transactional
     public List<AppointmentDto> getAllAppointments() {
         return appointmentRepository.findAll().stream()
@@ -43,6 +41,16 @@ public class AppointmentService {
     @Transactional
     public AppointmentDto getAppointmentById(Integer id){
         return AppointmentConverter.convertAppointmentToDto(appointmentRepository.findById(id).orElseThrow(NotFoundException::new));
+    }
+
+    @Transactional
+    public AppointmentDto updateAppointmentStatus(Integer id, String status) {
+      Appointment appointment = appointmentRepository.findById(id).orElse(null);
+      if (appointment != null) {
+        appointment.setApproved(status);
+        appointmentRepository.save(appointment);
+      }
+      return getAppointmentById(id);
     }
 
     @Transactional
@@ -80,5 +88,4 @@ public class AppointmentService {
 
         return AppointmentConverter.convertAppointmentToDto(appointmentRepository.save(appointment));
     }
-
 }

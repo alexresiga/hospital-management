@@ -19,12 +19,12 @@ public class AppointmentController {
         return appointmentService.getAllAppointments();
     }
 
-    @GetMapping("/api/appointment/{patient_id}")
+    @GetMapping("/api/appointment/patient/{patient_id}")
     public List<AppointmentDto> getPatientAppointments(@PathVariable("patient_id") Integer id) {
         return appointmentService.getAppointmentsOfaPatient(id);
     }
 
-    @GetMapping("/api/appointment/{doctor_id}")
+    @GetMapping("/api/appointment/doctor/{doctor_id}")
     public List<AppointmentDto> getDoctorAppointments(@PathVariable("doctor_id") Integer id) {
         return appointmentService.getAppointmentsOfaDoctor(id);
     }
@@ -32,6 +32,11 @@ public class AppointmentController {
     @GetMapping("/api/appointment/{id}")
     public AppointmentDto getAppointmentById(@PathVariable("id") Integer id) {
         return appointmentService.getAppointmentById(id);
+    }
+
+    @PostMapping("/api/appointment/{id}/{status}")
+    public AppointmentDto updateAppointmentStatus(@PathVariable("id") Integer id, @PathVariable("status") String status) {
+      return appointmentService.updateAppointmentStatus(id, status);
     }
 
     @PostMapping("/api/appointment")
