@@ -20,10 +20,12 @@ import java.util.stream.Collectors;
 
 @Service
 public class AppointmentService {
-
     @Autowired
     private AppointmentRepository appointmentRepository;
-
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private RoomRepository roomRepository;
 
     @Transactional
     public List<AppointmentDto> getAllAppointments() {
@@ -63,4 +65,17 @@ public class AppointmentService {
                 .collect(Collectors.toList());
     }
 
+    @Transactional
+    public AppointmentDto createAppointment(AppointmentDto appointmentDto) {
+      User doctor = userRepository.findById(appointmentDto.getDoctor()).orElse(null);
+      User patient = userRepository.findById(appointmentDto.getPatient()).orElse(null);
+      Room room = roomRepository.findById(appointmentDto.getRoom()).orElse(null);
+      if (doctor == null || patient == null || room == null) {
+        return null;
+      } else {
+        Appointment appointment = new Appointment(null, doctor, patient, appointmentDto.getDate(), room, "pending");
+        appointmentRepository.save(appointment);
+        return AppointmentConverter.convertAppointmentToDto(appointment);
+      }
+    }
 }
