@@ -3,14 +3,17 @@ package hospital.management.Hospital.service;
 import hospital.management.Hospital.converter.RoomConverter;
 import hospital.management.Hospital.dto.RoomDto;
 import hospital.management.Hospital.exceptions.NotFoundException;
+import hospital.management.Hospital.model.Appointment;
 import hospital.management.Hospital.model.Department;
 import hospital.management.Hospital.model.Room;
+import hospital.management.Hospital.repository.AppointmentRepository;
 import hospital.management.Hospital.repository.DepartmentRepository;
 import hospital.management.Hospital.repository.RoomRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -23,6 +26,9 @@ public class RoomService {
 
     @Autowired
     private DepartmentRepository departmentRepository;
+
+    @Autowired
+    private AppointmentRepository appointmentRepository;
 
     @Transactional
     public List<RoomDto> getAllRooms() {
@@ -44,9 +50,6 @@ public class RoomService {
         room.setLevel(roomDto.getLevel());
         room.setDepartment(department);
 
-//        department.add_room(room);
-//
-//        departmentRepository.save(department);
         return RoomConverter.convertRoomToDTO(roomRepository.save(room));
     }
 
@@ -63,6 +66,10 @@ public class RoomService {
 
     @Transactional
     public boolean deleteRoom(Integer id) {
+        List<Appointment> appointments = new ArrayList<>(appointmentRepository.findAll());
+        for(Appointment appointment: appointments)
+            if(appointment.getRoom().getId().equals(id))
+                appointmentRepository.deleteById(appointment.getId());
         roomRepository.deleteById(id);
         return true;
     }

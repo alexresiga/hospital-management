@@ -18,16 +18,10 @@ public class Department {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @OneToMany(mappedBy = "department", orphanRemoval = true, cascade = {CascadeType.MERGE}, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "department", orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Room> rooms = new HashSet<>();
 
     private String name;
-
-    public void add_room(Room room)
-    {
-        room.setDepartment(this);
-        this.rooms.add(room);
-    }
 
     @Override
     public String toString()

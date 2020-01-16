@@ -14,5 +14,5 @@ import java.io.Serializable;
 public class DoctorInformationDto implements Serializable {
     private Integer id;
     private Integer doctor;
-    private String workingSchedule;
+    private String working_schedule;
 }
