@@ -4,12 +4,8 @@ import hospital.management.Hospital.converter.AppointmentConverter;
 import hospital.management.Hospital.dto.AppointmentDto;
 import hospital.management.Hospital.exceptions.ExceptionClass;
 import hospital.management.Hospital.exceptions.NotFoundException;
-import hospital.management.Hospital.model.Appointment;
-import hospital.management.Hospital.model.Room;
-import hospital.management.Hospital.model.User;
-import hospital.management.Hospital.repository.AppointmentRepository;
-import hospital.management.Hospital.repository.RoomRepository;
-import hospital.management.Hospital.repository.UserRepository;
+import hospital.management.Hospital.model.*;
+import hospital.management.Hospital.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,9 +19,16 @@ public class AppointmentService {
     @Autowired
     private AppointmentRepository appointmentRepository;
     @Autowired
-    private UserRepository userRepository;
-    @Autowired
     private RoomRepository roomRepository;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private PatientInformationRepository patientInformationRepository;
+
+    @Autowired
+    private DoctorInformationRepository doctorInformationRepository;
 
     @Transactional
     public List<AppointmentDto> getAllAppointments() {

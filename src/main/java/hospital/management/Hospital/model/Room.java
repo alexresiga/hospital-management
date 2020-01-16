@@ -1,26 +1,32 @@
 package hospital.management.Hospital.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Entity(name = "Room")
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
+@Getter
+@Setter
 @Builder
 @Table(name = "rooms")
+@EqualsAndHashCode(exclude="department")
 public class Room {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="department_id", referencedColumnName = "id")
     private Department department;
 
     private String name;
     private String level;
+
+    @Override
+    public String toString()
+    {
+        return "room";
+    }
 }

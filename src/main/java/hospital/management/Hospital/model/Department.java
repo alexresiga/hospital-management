@@ -1,17 +1,16 @@
 package hospital.management.Hospital.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
-@Entity(name="Department")
+@Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
+@Getter
+@Setter
 @Builder
 @Table(name = "departments")
 public class Department {
@@ -19,8 +18,14 @@ public class Department {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @OneToMany(mappedBy = "department", cascade = CascadeType.ALL)
-    private Set<Room> rooms;
+    @OneToMany(mappedBy = "department", orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Set<Room> rooms = new HashSet<>();
 
     private String name;
+
+    @Override
+    public String toString()
+    {
+        return "dep";
+    }
 }

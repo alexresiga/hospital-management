@@ -12,7 +12,7 @@ public class DoctorInformationConverter {
         return DoctorInformationDto.builder()
                 .id(doctorInformation.getId())
                 .doctor(doctorInformation.getUser().getId())
-                .workingSchedule(doctorInformation.getWorkingSchedule())
+                .working_schedule(doctorInformation.getWorkingSchedule())
                 .build();
     }
 }
