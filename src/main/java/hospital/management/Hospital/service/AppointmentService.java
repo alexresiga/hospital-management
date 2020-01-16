@@ -18,7 +18,6 @@ import java.util.stream.Collectors;
 public class AppointmentService {
     @Autowired
     private AppointmentRepository appointmentRepository;
-
     @Autowired
     private RoomRepository roomRepository;
 
@@ -70,22 +69,16 @@ public class AppointmentService {
     }
 
     @Transactional
-    public AppointmentDto createAppointment(AppointmentDto appointmentDto){
-        Appointment appointment = new Appointment();
-        appointment.setApproved(appointmentDto.getApproved());
-        appointment.setDate(appointmentDto.getDate());
-
-        Room room = roomRepository.findById(appointmentDto.getRoom()).orElseThrow(NotFoundException::new);
-        appointment.setRoom(room);
-
-        User patient = userRepository.findById(appointmentDto.getPatient()).orElseThrow(NotFoundException::new);
-        PatientInformation patientInformation = patientInformationRepository.findById(patient.getPatient_information().getId()).orElseThrow(NotFoundException::new);
-        appointment.setPatient(patient);
-
-        User doctor = userRepository.findById(appointmentDto.getDoctor()).orElseThrow(NotFoundException::new);
-        DoctorInformation doctorInformation = doctorInformationRepository.findById(doctor.getDoctor_information().getId()).orElseThrow(NotFoundException::new);
-        appointment.setDoctor(doctor);
-
-        return AppointmentConverter.convertAppointmentToDto(appointmentRepository.save(appointment));
+    public AppointmentDto createAppointment(AppointmentDto appointmentDto) {
+      User doctor = userRepository.findById(appointmentDto.getDoctor()).orElse(null);
+      User patient = userRepository.findById(appointmentDto.getPatient()).orElse(null);
+      Room room = roomRepository.findById(appointmentDto.getRoom()).orElse(null);
+      if (doctor == null || patient == null || room == null) {
+        return null;
+      } else {
+        Appointment appointment = new Appointment(null, doctor, patient, appointmentDto.getDate(), room, "pending");
+        appointmentRepository.save(appointment);
+        return AppointmentConverter.convertAppointmentToDto(appointment);
+      }
     }
 }
