@@ -1,0 +1,40 @@
+<form id = "signup-form" [formGroup]="form" (submit)="onSubmit($event)">
+    <div class="form-group">
+        <label for="signup-name">Full Name</label>
+        <input type="email" class="form-control" id="signup-name" placeholder="Enter your full name" 
+            formControlName="fullName"
+        />
+    </div>
+    <div class="form-group" [ngClass]="{'invalid': !isEmailValid}">
+        <label for="signup-email">Email address</label>
+        <input type="email" class="form-control" id="signup-email" placeholder="Enter your email address" 
+            formControlName="email"
+        />
+        <p id="passwordHelpBlock" class="form-text input-hint text-danger">
+            This is not a valid format for an email.
+        </p>
+    </div>
+    <div class="form-group" [ngClass]="{'invalid': !isPasswordValid}">
+        <label for="signup-password">Password</label>
+        <input type="password" class="form-control" id="signup-password" placeholder="Enter a password" 
+            formControlName="password"
+        />
+        <p id="passwordHelpBlock" class="form-text input-hint text-danger">
+            The password should have between 8 and 16 characters.
+        </p>
+    </div>
+
+    <div class="form-group" [ngClass]="{'invalid': !isPasswordConfirmationValid}">
+        <label for="password-confirmation">Password Confirmation</label>
+        <input type="password" class="form-control" id="password-confirmation" placeholder="Enter the password again"
+            formControlName="passwordConfirmation"
+        />
+
+        <p id="passwordConfirmHelpBlock" class="form-text input-hint text-danger">
+            The confirmation does not match your chosen password.
+        </p>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Create account</button>
+</form>
+    
