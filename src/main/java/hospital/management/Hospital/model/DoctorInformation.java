@@ -1,16 +1,15 @@
 package hospital.management.Hospital.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.hibernate.validator.constraints.UniqueElements;
 
 import javax.persistence.*;
 
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
+@Getter
+@Setter
 @Builder
 @Table(name = "doctor_information")
 public class DoctorInformation {
@@ -18,9 +17,14 @@ public class DoctorInformation {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "doctor_id", referencedColumnName = "id")
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "doctor_id", referencedColumnName = "id", unique = true)
     private User user;
 
     private String workingSchedule;
+
+    public String toString()
+    {
+        return "doctor";
+    }
 }

@@ -4,12 +4,8 @@ import hospital.management.Hospital.converter.AppointmentConverter;
 import hospital.management.Hospital.dto.AppointmentDto;
 import hospital.management.Hospital.exceptions.ExceptionClass;
 import hospital.management.Hospital.exceptions.NotFoundException;
-import hospital.management.Hospital.model.Appointment;
-import hospital.management.Hospital.model.Room;
-import hospital.management.Hospital.model.User;
-import hospital.management.Hospital.repository.AppointmentRepository;
-import hospital.management.Hospital.repository.RoomRepository;
-import hospital.management.Hospital.repository.UserRepository;
+import hospital.management.Hospital.model.*;
+import hospital.management.Hospital.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +19,18 @@ public class AppointmentService {
 
     @Autowired
     private AppointmentRepository appointmentRepository;
+
+    @Autowired
+    private RoomRepository roomRepository;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private PatientInformationRepository patientInformationRepository;
+
+    @Autowired
+    private DoctorInformationRepository doctorInformationRepository;
 
 
     @Transactional
@@ -51,6 +59,26 @@ public class AppointmentService {
                 .filter(appointment -> appointment.getDoctor().getId().equals(doctor_id))
                 .map(AppointmentConverter::convertAppointmentToDto)
                 .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public AppointmentDto createAppointment(AppointmentDto appointmentDto){
+        Appointment appointment = new Appointment();
+        appointment.setApproved(appointmentDto.getApproved());
+        appointment.setDate(appointmentDto.getDate());
+
+        Room room = roomRepository.findById(appointmentDto.getRoom()).orElseThrow(NotFoundException::new);
+        appointment.setRoom(room);
+
+        User patient = userRepository.findById(appointmentDto.getPatient()).orElseThrow(NotFoundException::new);
+        PatientInformation patientInformation = patientInformationRepository.findById(patient.getPatient_information().getId()).orElseThrow(NotFoundException::new);
+        appointment.setPatient(patient);
+
+        User doctor = userRepository.findById(appointmentDto.getDoctor()).orElseThrow(NotFoundException::new);
+        DoctorInformation doctorInformation = doctorInformationRepository.findById(doctor.getDoctor_information().getId()).orElseThrow(NotFoundException::new);
+        appointment.setDoctor(doctor);
+
+        return AppointmentConverter.convertAppointmentToDto(appointmentRepository.save(appointment));
     }
 
 }

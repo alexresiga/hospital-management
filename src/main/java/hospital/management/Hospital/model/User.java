@@ -2,14 +2,17 @@ package hospital.management.Hospital.model;
 
 
 import lombok.*;
+
 import javax.persistence.*;
 
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
+@Getter
+@Setter
 @Builder
 @Table(name = "users")
+@EqualsAndHashCode(exclude = {"doctor_information", "patient_information"})
 public class User {
 
     public User(String username, String password, String full_name, String email, String phone_number, Role role) {
@@ -40,10 +43,15 @@ public class User {
     @JoinColumn(name = "role_id")
     private Role role;
 
-    @OneToOne(mappedBy = "user")
-    private DoctorInformation doctorInformation;
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private DoctorInformation doctor_information;
 
-    @OneToOne(mappedBy = "user")
-    private PatientInformation patientInformation;
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private PatientInformation patient_information;
+
+    @Override
+    public String toString() {
+        return "user";
+    }
 
 }
