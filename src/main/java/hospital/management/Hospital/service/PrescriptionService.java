@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -52,16 +53,17 @@ public class PrescriptionService {
     }
 
     @Transactional
-    public void deletePrescriptionById(Integer id){
+    public boolean deletePrescriptionById(Integer id){
         PrescriptionDto prescription_to_delete = findPrescriptionById(id);
         if(prescription_to_delete == null){
             throw new ExceptionClass("Prescription does not exist!");
         }
         prescriptionRepository.deleteById(id);
+        return true;
     }
 
     @Transactional
-    public void updatePrescription(Integer id, PrescriptionDto prescriptionDto){
+    public PrescriptionDto updatePrescription(Integer id, PrescriptionDto prescriptionDto){
         Prescription prescription_to_update = prescriptionRepository.findById(id).orElse(null);
         if(prescription_to_update == null){
             throw new ExceptionClass("Prescription does not exist!");
@@ -74,28 +76,33 @@ public class PrescriptionService {
             User patient = userRepository.findById(prescriptionDto.getPatient()).orElse(null);
             prescription_to_update.setPatient(patient == null ? prescription_to_update.getPatient() : patient);
         }
-        Set<Drug> drugs = prescriptionDto.getDrugs().stream()
-                                            .map(drug_id -> drugRepository.findById(drug_id).orElse(null))
-                                            .filter(Objects::nonNull)
-                                            .collect(Collectors.toSet());
-
+        Set<Drug> drugs = new HashSet<>();
+        if (prescriptionDto.getDrugs() != null) {
+            drugs = prescriptionDto.getDrugs().stream()
+                    .map(drug_id -> drugRepository.findById(drug_id).orElse(null))
+                    .filter(Objects::nonNull)
+                    .collect(Collectors.toSet());
+        }
         prescription_to_update.setDrugs(drugs.size() != 0 ? drugs : prescription_to_update.getDrugs());
-        prescriptionRepository.save(prescription_to_update);
+        return PrescriptionConverter.convertPrescriptionToDto(prescriptionRepository.save(prescription_to_update));
     }
 
     @Transactional
-    public void addPrescription(PrescriptionDto prescriptionDto)
+    public PrescriptionDto addPrescription(PrescriptionDto prescriptionDto)
     {
         User doctor = userRepository.findById(prescriptionDto.getDoctor()).orElse(null);
         User patient = userRepository.findById(prescriptionDto.getPatient()).orElse(null);
         if(patient == null || doctor == null ){
             throw new ExceptionClass("Invalid data for the prescription!");
         }
-        Set<Drug> drugs = prescriptionDto.getDrugs().stream()
-                .map(drug_id -> drugRepository.findById(drug_id).orElse(null))
-                .filter(Objects::nonNull)
-                .collect(Collectors.toSet());
+        Set<Drug> drugs = new HashSet<>();
+        if (prescriptionDto.getDrugs() != null) {
+            drugs = prescriptionDto.getDrugs().stream()
+                    .map(drug_id -> drugRepository.findById(drug_id).orElse(null))
+                    .filter(Objects::nonNull)
+                    .collect(Collectors.toSet());
+        }
         Prescription new_prescription = new Prescription(null,doctor,patient,prescriptionDto.getNote(),drugs);
-        prescriptionRepository.save(new_prescription);
+        return PrescriptionConverter.convertPrescriptionToDto(prescriptionRepository.save(new_prescription));
     }
 }

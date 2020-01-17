@@ -2,7 +2,9 @@ package hospital.management.Hospital.controller;
 
 
 import hospital.management.Hospital.dto.AppointmentDto;
+import hospital.management.Hospital.dto.PrescriptionDto;
 import hospital.management.Hospital.service.AppointmentService;
+import hospital.management.Hospital.service.PrescriptionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,6 +19,9 @@ public class AppointmentController {
 
     @Autowired
     private AppointmentService appointmentService;
+
+    @Autowired
+    private PrescriptionService prescriptionService;
 
     @GetMapping("/api/appointment")
     public List<AppointmentDto> getAllAppointments() {
@@ -36,6 +41,14 @@ public class AppointmentController {
     @GetMapping("/api/appointment/{id}")
     public AppointmentDto getAppointmentById(@PathVariable("id") Integer id) {
         return appointmentService.getAppointmentById(id);
+    }
+
+    @PostMapping("/api/appointment/{id}/prescription")
+    public PrescriptionDto addPrescription(@PathVariable("id") Integer appointmentId, @RequestBody PrescriptionDto prescriptionDto) {
+        AppointmentDto appointmentDto = appointmentService.getAppointmentById(appointmentId);
+        prescriptionDto.setDoctor(appointmentDto.getDoctor());
+        prescriptionDto.setPatient(appointmentDto.getPatient());
+        return prescriptionService.addPrescription(prescriptionDto);
     }
 
     @PostMapping("/api/appointment/{id}/{status}")
