@@ -11,6 +11,7 @@ import hospital.management.Hospital.repository.PrescriptionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -24,6 +25,7 @@ public class DrugService {
     @Autowired
     private PrescriptionRepository prescriptionRepository;
 
+
     public DrugDto findDrugById(Integer id){
         return DrugConverter.convertDrugToDto(drugRepository.findById(id).orElseThrow(NotFoundException::new));
     }
@@ -34,35 +36,43 @@ public class DrugService {
                 .collect(Collectors.toList());
     }
 
-    public void deleteDrug(Integer id){
+    public boolean deleteDrug(Integer id){
         DrugDto drug_to_delete = findDrugById(id);
         if(drug_to_delete == null){
             throw new ExceptionClass("Drug does not exist!");
         }
         drugRepository.deleteById(id);
+        return true;
     }
 
-    public void updateDrug(Integer id, DrugDto drugDto) {
+    public DrugDto updateDrug(Integer id, DrugDto drugDto) {
         Drug drug_to_update = drugRepository.findById(id).orElse(null);
         if(drug_to_update == null){
             throw new ExceptionClass("Drug does not exist!");
         }
         drug_to_update.setName(drugDto.getName() == null ? drug_to_update.getName() : drugDto.getName());
-        Set<Prescription> prescriptions = drugDto.getPrescriptions()
-                                            .stream()
-                                            .map(prescription_id -> prescriptionRepository.findById(prescription_id).orElse(null))
-                                            .filter(Objects::nonNull)
-                                            .collect(Collectors.toSet());
+
+        Set<Prescription> prescriptions = new HashSet<>();
+        if(drugDto.getPrescriptions()!=null) {
+            prescriptions = drugDto.getPrescriptions()
+                    .stream()
+                    .map(prescription_id -> prescriptionRepository.findById(prescription_id).orElse(null))
+                    .filter(Objects::nonNull)
+                    .collect(Collectors.toSet());
+        }
         drug_to_update.setPrescriptions(prescriptions.size() == 0 ? drug_to_update.getPrescriptions() : prescriptions);
-        drugRepository.save(drug_to_update);
+        return DrugConverter.convertDrugToDto(drugRepository.save(drug_to_update));
     }
 
-    public void addDrug(DrugDto drugDto){
-        Set<Prescription> prescriptions = drugDto.getPrescriptions().stream()
-                                            .map(prescription_id -> prescriptionRepository.findById(prescription_id).orElse(null))
-                                            .filter(Objects::nonNull)
-                                            .collect(Collectors.toSet());
+    public DrugDto addDrug(DrugDto drugDto){
+        Set<Prescription> prescriptions = new HashSet<>();
+        if(drugDto.getPrescriptions()!=null) {
+            prescriptions = drugDto.getPrescriptions().stream()
+                    .map(prescription_id -> prescriptionRepository.findById(prescription_id).orElse(null))
+                    .filter(Objects::nonNull)
+                    .collect(Collectors.toSet());
+        }
         Drug new_drug = new Drug(null,drugDto.getName(),prescriptions);
-        drugRepository.save(new_drug);
+        return  DrugConverter.convertDrugToDto(drugRepository.save(new_drug));
     }
 }

@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -65,6 +66,9 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/api/login").permitAll()
                 .antMatchers("/api/register").permitAll()
+                .antMatchers( HttpMethod.POST,"/api/drug/**").hasAuthority("admin")
+                .antMatchers( HttpMethod.PUT,"/api/drug/**").hasAuthority("admin")
+                .antMatchers( HttpMethod.DELETE,"/api/drug/**").hasAuthority("admin")
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
