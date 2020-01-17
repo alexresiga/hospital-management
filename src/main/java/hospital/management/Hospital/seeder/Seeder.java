@@ -25,7 +25,8 @@ public class Seeder implements CommandLineRunner {
     private RoleRepository roleRepository;
 
     @Autowired
-    private final PasswordEncoder passwordEncoder;
+    private PasswordEncoder passwordEncoder;
+
 
     @Override
     public void run(String... args) throws Exception {

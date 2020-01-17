@@ -4,6 +4,8 @@ import hospital.management.Hospital.converter.UserConverter;
 import hospital.management.Hospital.dto.UserDto;
 import hospital.management.Hospital.exceptions.NotFoundException;
 import hospital.management.Hospital.model.Appointment;
+import hospital.management.Hospital.model.ErrorMessage;
+import hospital.management.Hospital.model.Role;
 import hospital.management.Hospital.model.User;
 import hospital.management.Hospital.repository.AppointmentRepository;
 import hospital.management.Hospital.repository.RoleRepository;
@@ -11,6 +13,7 @@ import hospital.management.Hospital.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
@@ -63,6 +66,28 @@ public class UserService {
     public UserDto getUserByUsername(String username) {
         User user = userRepository.findUserByUsername(username).isPresent() ? userRepository.findUserByUsername(username).get() : null;
         return user != null ? UserConverter.convertUserToDTO(user) : null;
+    }
+
+    @Transactional
+    public ErrorMessage registerUser(UserDto userDto) {
+        Optional<Role> role = roleRepository.findRoleByName("user");
+        role.ifPresent(value -> userDto.setRole(value.getId()));
+
+        if (isEmailRegistered(userDto.getEmail())) {
+            return ErrorMessage.builder().error(true).errorMessage("E-mail already registered.").build();
+        }
+        createUser(userDto);
+        return ErrorMessage.builder().error(false).build();
+    }
+
+    @Transactional
+    public boolean isUsernameRegistered(String username) {
+        return userRepository.findUserByUsername(username).isPresent();
+    }
+
+    @Transactional
+    public boolean isEmailRegistered(String email) {
+        return userRepository.findUserByEmail(email).isPresent();
     }
 
     @Transactional
