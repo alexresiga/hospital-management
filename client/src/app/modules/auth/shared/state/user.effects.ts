@@ -24,26 +24,10 @@ export class UserEffects {
   ) {}
 
   @Effect()
-  getCurrentUser$ = this.actions$.pipe(
-    ofType<GetCurrentUser>(UserActionsTypes.GET_CURRENT_USER),
-    switchMap(() => this.userService.getCurrentUser()),
-    map(action => new GetCurrentUserSuccess(action)),
-    catchError(error => of(new UserError(error)))
-  );
-
-  @Effect()
   signupUser$ = this.actions$.pipe(
     ofType<SignupUser>(UserActionsTypes.SIGNUP_USER),
     switchMap(action => this.userService.signup(action.payload)),
     map(_ => new SignupUserSuccess()),
-    catchError(error => of(new UserError(error)))
-  );
-
-  @Effect()
-  loginUser$ = this.actions$.pipe(
-    ofType<LoginUser>(UserActionsTypes.LOGIN_USER),
-    switchMap(action => this.userService.login(action.payload)),
-    map(result => new LoginUserSuccess(result)),
     catchError(error => of(new UserError(error)))
   );
 

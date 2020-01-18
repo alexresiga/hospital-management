@@ -49,6 +49,13 @@ public class UserService {
     }
 
     @Transactional
+    public UserDto getUserByEmail(String email) {
+        User user = userRepository.findUserByEmail(email).isPresent() ? userRepository.findUserByEmail(email).get() : null;
+        return user != null ? UserConverter.convertUserToDTO(user) : null;
+    }
+
+
+    @Transactional
     public boolean deleteUser(Integer id) {
         List<Appointment> appointments = new ArrayList<>(appointmentRepository.findAll());
         for (Appointment appointment : appointments)
