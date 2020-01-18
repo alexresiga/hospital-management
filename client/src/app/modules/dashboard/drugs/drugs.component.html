@@ -1,41 +1,48 @@
 <app-navbar></app-navbar>
-<main class="container-fluid">
-  <div class="row">
-    <div class="col-12">
-      <div class="card">
-        <div class="card-header">
-          <button
-            class="btn btn-info btn-sm"
-            id="addDrugModalTrigger"
-            type="button"
-            data-toggle="modal"
-            data-target="#addDrugModal"
-          >
-            Add Drug
-          </button>
-        </div>
-        <div class="card-body">
-          <ul class="list-group">
-            <li class="list-group-item" *ngFor="let drug of drugs | async">
-              <h5>{{ drug.name }}</h5>
-              <button
-                class="btn btn-warning btn-sm mr-1"
-                id="editDrugModalTrigger"
-                type="button"
-                data-toggle="modal"
-                data-target="#editDrugModal"
-                (click)="setDrugId(drug.id)"
-              >
-                Edit
-              </button>
-              <button class="btn btn-danger btn-sm" (click)="deleteDrug(drug.id)">Delete</button>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </div>
-</main>
+
+<div class="example-container filter">
+  <button
+    class="btn btn-info btn-sm mb-3"
+    id="addDrugModalTrigger"
+    type="button"
+    data-toggle="modal"
+    data-target="#addDrugModal"
+  >
+    Add Drug
+  </button>
+
+  <table mat-table [dataSource]="drugs" class="mat-elevation-z8">
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef>Name</th>
+      <td mat-cell *matCellDef="let drug">{{ drug.name }}</td>
+    </ng-container>
+    <ng-container matColumnDef="edit">
+      <th mat-header-cell *matHeaderCellDef></th>
+      <td mat-cell *matCellDef="let drug">
+        <button
+          class="btn btn-info btn-sm"
+          id="addDrugModalTrigger"
+          type="button"
+          data-toggle="modal"
+          data-target="#editDrugModal"
+          (click)="setDrugId(drug.id)"
+        >
+          Edit
+        </button>
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="delete">
+      <th mat-header-cell *matHeaderCellDef></th>
+      <td mat-cell *matCellDef="let drug">
+        <button class="btn btn-danger btn-sm" type="button" (click)="deleteDrug(drug.id)">
+          Delete
+        </button>
+      </td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  </table>
+</div>
 
 <div id="addDrugModal" class="modal fade" role="dialog">
   <div class="modal-dialog">
