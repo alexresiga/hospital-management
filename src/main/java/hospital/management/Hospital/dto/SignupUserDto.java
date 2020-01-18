@@ -1,7 +1,5 @@
 package hospital.management.Hospital.dto;
 
-
-import hospital.management.Hospital.model.Role;
 import lombok.*;
 
 import java.io.Serializable;
@@ -13,10 +11,8 @@ import java.io.Serializable;
 @ToString
 @Data
 @Builder
-public class UserDto implements Serializable {
-    private Integer id;
+public class SignupUserDto implements Serializable {
     private String password;
-    private String full_name;
+    private String fullName;
     private String email;
-    private Integer role;
 }

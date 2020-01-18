@@ -59,6 +59,17 @@ export function reducer(state: UserState = initialUserState, action: UserActions
         error: action.payload,
         data: null
       };
+    case UserActionsTypes.SIGNUP_USER:
+      return {
+        ...state,
+        loading: true,
+      };
+    case UserActionsTypes.SIGNUP_USER_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        data: null
+      };
     default:
       return state;
   }

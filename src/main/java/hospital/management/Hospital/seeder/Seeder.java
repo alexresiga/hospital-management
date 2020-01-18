@@ -39,10 +39,10 @@ public class Seeder implements CommandLineRunner {
         }
 
         if (userRepository.findAll().isEmpty()) {
-            userRepository.save(new User("admin", passwordEncoder.encode("pass"),
+            /*userRepository.save(new User("admin", passwordEncoder.encode("pass"),
                     "ADMIN", "admin@yahoo.com", "0746", admin));
             userRepository.save(new User("user", passwordEncoder.encode("pass"),
-                    "User fullname", "user@yahoo.com", "0745", user));
+                    "User fullname", "user@yahoo.com", "0745", user));*/
         }
 
 
