@@ -6,7 +6,8 @@ import {Department} from '../model/Department';
 import {Room} from '../model/Room';
 
 const httpOptions = {
-  headers: new HttpHeaders({'Content-Type': 'application/json'})
+  headers: new HttpHeaders({'Content-Type': 'application/json'}),
+  withCredentials: true
 };
 
 @Injectable({
@@ -20,7 +21,7 @@ export class DepartmentsService {
   }
 
   getDepartments(): Observable<Department[]> {
-    return this.http.get<Department[]>(this.baseUrl)
+    return this.http.get<Department[]>(this.baseUrl, httpOptions)
         .pipe(catchError(this.handleError(undefined)));
   }
 
@@ -37,7 +38,7 @@ export class DepartmentsService {
   }
 
   getDepartmentByID(id: number): Observable<Department> {
-    return this.http.get<Department>(`${this.baseUrl}/${id}`).pipe(catchError(this.handleError(undefined)));
+    return this.http.get<Department>(`${this.baseUrl}/${id}`, httpOptions).pipe(catchError(this.handleError(undefined)));
   }
 
   updateDepartment(dept: Department): Observable<Department> {

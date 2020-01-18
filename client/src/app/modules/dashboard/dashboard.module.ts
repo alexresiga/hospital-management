@@ -4,6 +4,7 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { CommonModule } from '@angular/common';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { DepartmentsAndRoomsComponent } from './departments-and-rooms/departments-and-rooms.component';
+import { DoctorsComponent } from './doctors/doctors.component';
 import {RouterModule} from '@angular/router';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatFormFieldModule} from '@angular/material/form-field';
@@ -31,7 +32,7 @@ import {MatTabsModule} from '@angular/material/tabs';
     MatTableModule,
     MatTabsModule
   ],
-  declarations: [DashboardComponent, NavbarComponent, DepartmentsAndRoomsComponent],
+  declarations: [DashboardComponent, NavbarComponent, DepartmentsAndRoomsComponent, DoctorsComponent],
   exports: []
 })
 export class DashboardModule {}
