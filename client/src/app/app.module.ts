@@ -2,19 +2,20 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
-import {HomeModule} from './modules/home/home.module';
+import { HomeModule } from './modules/home/home.module';
 import { StoreModule } from '@ngrx/store';
 import { reducers, metaReducers } from './shared/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
 import { DashboardModule } from './modules/dashboard/dashboard.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { PageNotFoundComponent } from './modules/page-not-found/page-not-found.component';
+import { FormsModule } from '@angular/forms';
+
 import {AppRoutingModule} from "./app-routing.module";
 
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
+  declarations: [AppComponent, PageNotFoundComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -24,13 +25,14 @@ import {AppRoutingModule} from "./app-routing.module";
       metaReducers,
       runtimeChecks: {
         strictStateImmutability: true,
-        strictActionImmutability: true,
+        strictActionImmutability: true
       }
     }),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}
