@@ -69,6 +69,12 @@ public class UserService {
     }
 
     @Transactional
+    public UserDto getUserByEmail(String email) {
+        User user = userRepository.findUserByEmail(email).isPresent() ? userRepository.findUserByEmail(email).get() : null;
+        return user != null ? UserConverter.convertUserToDTO(user) : null;
+    }
+
+    @Transactional
     public ErrorMessage registerUser(UserDto userDto) {
         Optional<Role> role = roleRepository.findRoleByName("user");
         role.ifPresent(value -> userDto.setRole(value.getId()));
