@@ -36,12 +36,8 @@ import {AppointmentsComponent} from "./appointments/appointments.component";
     MatTableModule,
     MatTabsModule
   ],
-<<<<<<< HEAD
 
-  declarations: [DashboardComponent, NavbarComponent, DepartmentsAndRoomsComponent, DoctorsComponent, PrescriptionsComponent, AppointmentsComponent],
-=======
-  declarations: [DashboardComponent, NavbarComponent, DepartmentsAndRoomsComponent, DrugsComponent, DoctorsComponent, PrescriptionsComponent],
->>>>>>> 7f635aa58551e65329df5b83173adc2e27d47ac3
+  declarations: [DashboardComponent, NavbarComponent, DepartmentsAndRoomsComponent,DrugsComponent, DoctorsComponent, PrescriptionsComponent, AppointmentsComponent],
   exports: []
 })
 export class DashboardModule {}
