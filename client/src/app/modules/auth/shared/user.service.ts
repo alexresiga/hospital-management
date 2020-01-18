@@ -1,10 +1,9 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import User, {UserLoginInput, UserSignupInput} from './user.model';
-import {Observable, Subscription} from 'rxjs';
+import {UserLoginInput, UserSignupInput} from './user.model';
+import {Observable} from 'rxjs';
 
 import {User as UserDto} from '../../../shared/model/User';
-import {Router} from '@angular/router';
 
 @Injectable()
 export class UserService {
@@ -14,7 +13,8 @@ export class UserService {
   private httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json'
-    })
+    }),
+    withCredentials: true
   };
   getCurrentUser(): Observable<UserDto> {
     return this.http.get<UserDto>(`${this.baseUrl}/currentUser`, this.httpOptions);
@@ -24,7 +24,7 @@ export class UserService {
     return this.http.post<any>(`${this.baseUrl}/register`, JSON.stringify(input), this.httpOptions);
   }
 
-  login(input: UserLoginInput): Subscription {
+  login(input: UserLoginInput): Observable<any> {
     const body = new URLSearchParams();
     body.append('email', input.username);
     body.append('password', input.password);
@@ -35,7 +35,7 @@ export class UserService {
     // this.httpOptions.headers.append('Origin', 'htps://localhost:8080');
     // console.log(body.toString());
 
-    return this.http.post<any>(url, body, this.httpOptions).subscribe(_ => this.router.navigateByUrl('/dashboard'));
+    return this.http.post<any>(url, body, this.httpOptions);
   }
 
   logout(): Observable<void> {

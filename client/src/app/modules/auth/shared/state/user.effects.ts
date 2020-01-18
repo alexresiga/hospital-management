@@ -34,7 +34,17 @@ export class UserEffects {
   @Effect()
   loginUserSuccess$ = this.actions$.pipe(
     ofType<LoginUserSuccess>(UserActionsTypes.LOGIN_USER_SUCCESS),
-    switchMap(() => this.router.navigate([''])),
+    switchMap(() => this.router.navigateByUrl('/dashboard')),
+  );
+
+  // @ts-ignore
+  // @ts-ignore
+  @Effect()
+  loginUser$ = this.actions$.pipe(
+      ofType<LoginUser>(UserActionsTypes.LOGIN_USER),
+      switchMap(action => this.userService.login(action.payload)),
+      map(result => new LoginUserSuccess(result)),
+      catchError(error => of(new UserError(error)))
   );
 
   @Effect()

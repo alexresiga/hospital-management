@@ -24,19 +24,19 @@ export class PrescriptionsService {
   constructor(private http: HttpClient) { }
 
   getPrescriptions(): Observable<Prescription[]> {
-    return this.http.get<Prescription[]>(this.baseUrl).pipe(catchError(this.handleError(undefined)));
+    return this.http.get<Prescription[]>(this.baseUrl, httpOptions).pipe(catchError(this.handleError(undefined)));
   }
 
   getAppointments(): Observable<Appointment[]> {
-    return this.http.get<Appointment[]>(this.attachToAppointUrl).pipe(catchError(this.handleError(undefined)));
+    return this.http.get<Appointment[]>(this.attachToAppointUrl, httpOptions).pipe(catchError(this.handleError(undefined)));
   }
 
   getDrugs() : Observable<Drug[]> {
-    return this.http.get<Drug[]>(this.drugUrl).pipe(catchError(this.handleError(undefined)));
+    return this.http.get<Drug[]>(this.drugUrl, httpOptions).pipe(catchError(this.handleError(undefined)));
   }
 
   getPatient(id: number) : Observable<User> {
-    return this.http.get<User>(this.userUrl+"/"+id).pipe(catchError(this.handleError(undefined)));
+    return this.http.get<User>(this.userUrl+"/"+id, httpOptions).pipe(catchError(this.handleError(undefined)));
   }
 
   addPrescription(appointID: number, prescription : Prescription):Observable<Prescription>{
@@ -46,18 +46,18 @@ export class PrescriptionsService {
   }
 
   getPatients(): Observable<User[]>{
-    return this.http.get<User[]>(this.userUrl).pipe(catchError(this.handleError(undefined)));
+    return this.http.get<User[]>(this.userUrl, httpOptions).pipe(catchError(this.handleError(undefined)));
   }
 
   getPrescriptionsOfAPatient(patient: number | User) : Observable<Prescription[]> {
     let patientID = typeof patient === 'number' ? patient : patient.id;
     let url = this.baseUrl + "/patient/" + patientID;
-    return this.http.get<Prescription[]>(url).pipe(catchError(this.handleError(undefined)));
+    return this.http.get<Prescription[]>(url, httpOptions).pipe(catchError(this.handleError(undefined)));
   }
 
   getPrescriptionById(id:number): Observable<Prescription>{
     let url = this.baseUrl + "/" + id;
-    return this.http.get<Prescription>(url).pipe(catchError(this.handleError(undefined)));
+    return this.http.get<Prescription>(url, httpOptions).pipe(catchError(this.handleError(undefined)));
   }
 
   private handleError<T>(result?: T) {
