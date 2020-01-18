@@ -2,11 +2,7 @@ package hospital.management.Hospital.service;
 
 import hospital.management.Hospital.converter.RoomConverter;
 import hospital.management.Hospital.converter.UserConverter;
-<<<<<<< HEAD
-import hospital.management.Hospital.dto.RoomDto;
-=======
 import hospital.management.Hospital.dto.SignupUserDto;
->>>>>>> c0916c0ca88541004e345a0a92f0e70bb189f3ff
 import hospital.management.Hospital.dto.UserDto;
 import hospital.management.Hospital.exceptions.NotFoundException;
 import hospital.management.Hospital.model.Appointment;
@@ -54,13 +50,6 @@ public class UserService {
     }
 
     @Transactional
-    public UserDto getUserByEmail(String email) {
-        User user = userRepository.findUserByEmail(email).isPresent() ? userRepository.findUserByEmail(email).get() : null;
-        return user != null ? UserConverter.convertUserToDTO(user) : null;
-    }
-
-
-    @Transactional
     public boolean deleteUser(Integer id) {
         List<Appointment> appointments = new ArrayList<>(appointmentRepository.findAll());
         for (Appointment appointment : appointments)
@@ -81,21 +70,12 @@ public class UserService {
         userRepository.findById(user.getId()).ifPresent(user_found -> user_found.setPassword(user.getPassword()));
     }
 
-    @Transactional
-<<<<<<< HEAD
-    public UserDto getUserByUsername(String username) {
-        User user = userRepository.findUserByUsername(username).isPresent() ? userRepository.findUserByUsername(username).get() : null;
-        return user != null ? UserConverter.convertUserToDTO(user) : null;
-    }
-
         @Transactional
     public UserDto getUserByEmail(String email) {
         User user = userRepository.findUserByEmail(email).isPresent() ? userRepository.findUserByEmail(email).get() : null;
         return user != null ? UserConverter.convertUserToDTO(user) : null;
     }
-=======
     public ErrorMessage registerUser(SignupUserDto userDto) {
->>>>>>> c0916c0ca88541004e345a0a92f0e70bb189f3ff
 
         Optional<Role> role = userRepository.count() > 0
                 ? roleRepository.findRoleByName("user")
