@@ -1,0 +1,26 @@
+#main {
+    padding-top: 4rem;
+}
+
+.example-container {
+    display: flex;
+    flex-direction: column;
+    background: lightblue;
+    height: 100%;
+    justify-content: center;
+}
+
+.filter {
+    width: 100%;
+    height: 100%;
+    align-items: center;
+}
+
+table {
+    width: 50%;
+    text-align: center;
+}
+
+.mat-header-cell {
+    text-align: center;
+}
