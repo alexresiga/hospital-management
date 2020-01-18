@@ -25,23 +25,16 @@
 
                         <button mat-raised-button color="primary"
                                 (click)="addRoom(roomName.value, roomDept.value,roomLevel.value); roomName.value=''; roomLevel.value=''">
-<<<<<<< HEAD
                             Add Room
-=======
-                            add
->>>>>>> fb9702694ec9fd42790d45f284dc79ea47ac80b0
                         </button>
                     </form>
                 </div>
                 <div *ngIf="toUpdate">
-<<<<<<< HEAD
                     <div id = "closeRoomUpdate">
                         <button mat-icon-button (click)="closeRoomUpdate()">
                             <mat-icon>close</mat-icon>
                         </button>
                     </div>
-=======
->>>>>>> fb9702694ec9fd42790d45f284dc79ea47ac80b0
                     <form class="example-container">
 
                         <mat-form-field class="example-full-width">
@@ -65,14 +58,8 @@
                         </mat-form-field>
 
                         <button mat-raised-button color="primary"
-<<<<<<< HEAD
                                 (click)="updateRoom(); clientNameUpdate.value=''; clientAddressUpdate.value=''">
                             Update Room
-=======
-                                (click)="updateRoom(toUpdate.id, clientNameUpdate.value, roomDeptUpdate.value,
-                        clientAddressUpdate.value); clientNameUpdate.value=''; clientAddressUpdate.value=''">
-                            update
->>>>>>> fb9702694ec9fd42790d45f284dc79ea47ac80b0
                         </button>
                     </form>
                 </div>
@@ -96,17 +83,10 @@
                         <ng-container matColumnDef="update">
                             <th mat-header-cell *matHeaderCellDef> Action</th>
                             <td mat-cell *matCellDef="let room">
-<<<<<<< HEAD
                                 <button mat-icon-button color="primary" (click)="update(room)">
                                     <mat-icon>edit</mat-icon>
                                 </button>
                                 <button mat-icon-button color="warn" (click)="delete(room)">
-=======
-                                <button mat-flat-button color="primary" (click)="update(room)">
-                                    update
-                                </button>
-                                <button mat-flat-button color="warn" (click)="delete(room)">
->>>>>>> fb9702694ec9fd42790d45f284dc79ea47ac80b0
                                     <mat-icon>delete</mat-icon>
                                 </button>
                             </td>
@@ -119,7 +99,6 @@
         </mat-grid-list>
     </mat-tab>
     <mat-tab label="Departments">
-<<<<<<< HEAD
         <mat-grid-list cols="2" rowHeight="1:1">
             <mat-grid-tile>
                 <div *ngIf="!toUpdateDept">
@@ -179,60 +158,6 @@
                 </div>
             </mat-grid-tile>
         </mat-grid-list>
-=======
-<!--        <mat-grid-list cols="2" rowHeight="1:1">-->
-<!--            <mat-grid-tile>-->
-<!--                <div *ngIf="!toUpdateDept">-->
-<!--                    <form class="example-container">-->
-<!--                        <mat-form-field class="example-full-width">-->
-<!--                            <input #deptName matInput placeholder="Name" required>-->
-<!--                        </mat-form-field>-->
-<!--                        <button mat-raised-button color="primary"-->
-<!--                                (click)="addDept(deptName.value); deptName.value=''">-->
-<!--                            add-->
-<!--                        </button>-->
-<!--                    </form>-->
-<!--                </div>-->
-<!--                <div *ngIf="toUpdateDept">-->
-<!--                    <form class="example-container">-->
 
-<!--                        <mat-form-field class="example-full-width">-->
-<!--                            <input #deptNameUpdate [(ngModel)]="toUpdateDept.name" matInput placeholder="Name" required-->
-<!--                                   name="nameDept">-->
-
-<!--                        </mat-form-field>-->
-<!--                        <button mat-raised-button color="primary"-->
-<!--                                (click)="updateDept(toUpdateDept.id, deptNameUpdate.value); deptNameUpdate.value=''">-->
-<!--                            update-->
-<!--                        </button>-->
-<!--                    </form>-->
-<!--                </div>-->
-<!--            </mat-grid-tile>-->
-
-<!--            <mat-grid-tile>-->
-<!--                <div class="example-container filter">-->
-<!--                    <table mat-table [dataSource]="dataSourceDept" class="mat-elevation-z8">-->
-<!--                        <ng-container matColumnDef="nameDept">-->
-<!--                            <th mat-header-cell *matHeaderCellDef> Name</th>-->
-<!--                            <td mat-cell *matCellDef="let dept"> {{dept.name}}</td>-->
-<!--                        </ng-container>-->
-<!--                        <ng-container matColumnDef="updateDept">-->
-<!--                            <th mat-header-cell *matHeaderCellDef> Action</th>-->
-<!--                            <td mat-cell *matCellDef="let dept">-->
-<!--                                <button mat-flat-button color="primary" (click)="updateTableDept(dept)">-->
-<!--                                    update-->
-<!--                                </button>-->
-<!--                                <button mat-flat-button color="warn" (click)="deleteDept(dept)">-->
-<!--                                    <mat-icon>delete</mat-icon>-->
-<!--                                </button>-->
-<!--                            </td>-->
-<!--                        </ng-container>-->
-<!--                        <tr mat-header-row *matHeaderRowDef="displayedColumnsDept"></tr>-->
-<!--                        <tr mat-row *matRowDef="let row; columns: displayedColumnsDept;"></tr>-->
-<!--                    </table>-->
-<!--                </div>-->
-<!--            </mat-grid-tile>-->
-<!--        </mat-grid-list>-->
->>>>>>> fb9702694ec9fd42790d45f284dc79ea47ac80b0
     </mat-tab>
 </mat-tab-group>
