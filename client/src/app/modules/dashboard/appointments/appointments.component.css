@@ -1,0 +1,49 @@
+#main {
+    padding-top: 4rem;
+}
+
+.example-container {
+    display: flex;
+    flex-direction: column;
+}
+
+mat-grid-tile {
+    background: lightblue;
+}
+
+
+.filter {
+    width: 100%;
+    align-items: center;
+}
+
+table {
+    width: 50%;
+    text-align: center;
+
+}
+
+.mat-header-cell {
+    text-align: center;
+}
+
+#paginator {
+    width: 50%;
+}
+
+#filter > .mat-form-field  {
+    font-size: 14px;
+    width: 50%;
+}
+
+button#remove {
+    width: 50%;
+}
+.mat-column-select {
+    overflow: visible;
+}
+
+#closeRoomUpdate, #closeDepartmentUpdate {
+    text-align: right;
+    color: var(--danger);
+}

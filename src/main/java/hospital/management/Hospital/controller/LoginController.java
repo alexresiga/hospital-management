@@ -1,5 +1,6 @@
 package hospital.management.Hospital.controller;
 
+import hospital.management.Hospital.dto.SignupUserDto;
 import hospital.management.Hospital.converter.UserConverter;
 import hospital.management.Hospital.dto.UserDto;
 import hospital.management.Hospital.model.ErrorMessage;
@@ -27,7 +28,7 @@ public class LoginController {
     private RoleService roleService;
 
     @PostMapping("/api/register")
-    public ErrorMessage register(@RequestBody UserDto data) {
+    public ErrorMessage register(@RequestBody SignupUserDto data) {
         return userService.registerUser(data);
     }
 

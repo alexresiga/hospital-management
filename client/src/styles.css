@@ -39,6 +39,11 @@ html {
     max-height: 45px;
 }
 
+.success-snackbar {
+    background-color: var(--success);
+    color: white;
+    text-align: center;
+}
 @media only screen and (min-width: 576px) {
     html {
         font-size: 14px;

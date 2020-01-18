@@ -10,6 +10,8 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { UserEffects } from '../auth/shared/state/user.effects';
 import { reducer as UserReducer } from '../auth/shared/state/user.reducer';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
 
 @NgModule({
   imports: [
@@ -19,7 +21,9 @@ import { reducer as UserReducer } from '../auth/shared/state/user.reducer';
     CommonModule,
     HttpClientModule,
     StoreModule.forRoot([UserReducer]),
-    EffectsModule.forRoot([UserEffects])
+    EffectsModule.forRoot([UserEffects]),
+    MatProgressSpinnerModule,
+    MatSnackBarModule
   ],
   declarations: [HomeComponent, SignupFormComponent],
   entryComponents: [HomeComponent, SignupFormComponent]

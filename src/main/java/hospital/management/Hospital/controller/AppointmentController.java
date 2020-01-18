@@ -52,8 +52,9 @@ public class AppointmentController {
     }
 
     @PostMapping("/api/appointment/{id}/{status}")
-    public AppointmentDto updateAppointmentStatus(@PathVariable("id") Integer id, @PathVariable("status") String status) {
-      return appointmentService.updateAppointmentStatus(id, status);
+    public AppointmentDto updateAppointmentStatus(@PathVariable("id") Integer id, @PathVariable("status") String status, @RequestBody AppointmentDto appointmentDto) {
+        System.out.println(id + " "+status);
+        return appointmentService.updateAppointmentStatus(id, status);
     }
 
     @PostMapping("/api/appointment")

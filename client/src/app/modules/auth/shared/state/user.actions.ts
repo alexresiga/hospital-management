@@ -5,6 +5,7 @@ export enum UserActionsTypes {
   GET_CURRENT_USER = '[USER] Get current',
   GET_CURRENT_USER_SUCCESS = '[USER] Get current success',
   SIGNUP_USER = '[USER] SIGNUP',
+  SIGNUP_USER_SUCCESS = '[USER] Sign up success',
   LOGIN_USER = '[USER] LOGIN',
   LOGIN_USER_SUCCESS = '[USER] LOGIN SUCCESS',
   LOGOUT_USER = '[USER] LOGOUT',
@@ -37,6 +38,11 @@ export class SignupUser implements Action {
   }
 }
 
+export class SignupUserSuccess implements Action {
+  public readonly type = UserActionsTypes.SIGNUP_USER_SUCCESS;
+}
+
+
 export class LoginUserSuccess implements Action {
   public readonly type = UserActionsTypes.LOGIN_USER_SUCCESS;
 
@@ -66,4 +72,6 @@ export type UserActions =
   | LoginUserSuccess
   | LogoutUser
   | LogoutUserSuccess
-  | UserError;
+  | UserError
+  | SignupUser
+  | SignupUserSuccess;
