@@ -20,12 +20,12 @@ export class UserService {
   };
 
   getCurrentUser(): Observable<User> {
-    return this.http.get<User>('/api/user', this.httpOptions);
+    return this.http.get<User>(`${this.baseUrl}/api/currentUser`, this.httpOptions);
   }
   private baseUrl2 = "http://localhost:8080/api/users";
 
   getUsers(): Observable<User[]> {
-    return this.http.get<User[]>(this.baseUrl2)
+    return this.http.get<User[]>(this.baseUrl2, this.httpOptions)
         .pipe(catchError(this.handleError(undefined)));
   }
 

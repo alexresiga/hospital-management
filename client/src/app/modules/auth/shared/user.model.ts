@@ -14,7 +14,7 @@ export default class User {
   username: string;
   full_name: string;
   email: string;
-  roles: UserRole[];
+  role: number;
 }
 
 export enum UserRole {

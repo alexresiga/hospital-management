@@ -4,8 +4,10 @@ import hospital.management.Hospital.dto.RoomDto;
 import hospital.management.Hospital.dto.UserDto;
 import hospital.management.Hospital.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 

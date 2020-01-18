@@ -21,8 +21,9 @@ export class AppointmentsComponent implements OnInit {
     users : User[];
     rooms:Room[];
     displayedColumns: string[] = ['date', 'room', 'doctor', 'patient', 'status'];
+    displayedColumnsDoctor: string[] = ['date', 'room', 'doctor', 'patient', 'status', 'change'];
     dataSource: MatTableDataSource<Appointment>;
-    aux:User;
+    currentUser:User;
     isDoctor:boolean;
 
     constructor(private appointmentsService: AppointmentsService, private userService:UserService,
@@ -30,10 +31,10 @@ export class AppointmentsComponent implements OnInit {
     }
 
     getAppoinments(): void {
-        this.appointmentsService.getMyAppointments()
+        this.appointmentsService.getMyAppointments(this.currentUser)
             .subscribe(appointments => {
                 console.log(appointments);
-                this.appointments = appointments;
+                this.appointments = appointments.sort((a,b) => a.id - b.id);
                 this.dataSource = new MatTableDataSource(this.appointments);
             });
     }
@@ -59,10 +60,29 @@ export class AppointmentsComponent implements OnInit {
         this.loadData();
     }
 
+    getCurrentUser(){
+        this.userService.getCurrentUser().subscribe(user=>
+                {   this.currentUser = user;
+                    console.log(user);
+                    if(this.currentUser.role == 1) {
+                        this.isDoctor=true;
+                    }
+                    else{
+                        this.isDoctor = false;
+                    }
+                    this.getAppoinments();
+                })
+    }
+
     loadData() {
+        this.getCurrentUser();
         this.getUsers();
         this.getRooms();
-        this.getAppoinments();
+    }
+
+    changeStatus(appointment:Appointment){
+        console.log(appointment);
+        this.appointmentsService.changeStatus(appointment).subscribe(_ => this.ngOnInit());
     }
 
      getUserByID(id: number): string {
