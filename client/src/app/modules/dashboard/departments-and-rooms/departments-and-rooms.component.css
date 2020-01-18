@@ -42,3 +42,8 @@ button#remove {
 .mat-column-select {
     overflow: visible;
 }
+
+#closeRoomUpdate, #closeDepartmentUpdate {
+    text-align: right;
+    color: var(--danger);
+}

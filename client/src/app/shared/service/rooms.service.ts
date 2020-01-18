@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {catchError} from "rxjs/operators";
-import {Observable, of} from "rxjs";
-import {Room} from "../model/Room";
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {catchError} from 'rxjs/operators';
+import {Observable, of} from 'rxjs';
+import {Room} from '../model/Room';
 
 
 const httpOptions = {
@@ -15,7 +15,7 @@ const httpOptions = {
 })
 export class RoomsService {
 
-  private baseUrl = "http://localhost:8080/api/rooms";
+  private baseUrl = 'http://localhost:8080/api/rooms';
 
   constructor(private http: HttpClient) {
   }
@@ -31,7 +31,7 @@ export class RoomsService {
   }
 
   deleteRoom(room: number | Room): Observable<Room> {
-    const id = typeof room === "number" ? room : room.id;
+    const id = typeof room === 'number' ? room : room.id;
     const url = `${this.baseUrl}/${id}`;
 
     return this.http.delete<Room>(url, httpOptions).pipe(catchError(this.handleError(undefined)));

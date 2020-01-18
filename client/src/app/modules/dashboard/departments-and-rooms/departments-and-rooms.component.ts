@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
-import {Room} from "../../../shared/model/Room";
-import {Department} from "../../../shared/model/Department";
-import {MatTableDataSource} from "@angular/material";
-import {RoomsService} from "../../../shared/service/rooms.service";
-import {DepartmentsService} from "../../../shared/service/departments.service";
+import {Room} from '../../../shared/model/Room';
+import {Department} from '../../../shared/model/Department';
+import {MatTableDataSource} from '@angular/material';
+import {RoomsService} from '../../../shared/service/rooms.service';
+import {DepartmentsService} from '../../../shared/service/departments.service';
 
 
 @Component({
@@ -15,8 +15,8 @@ export class DepartmentsAndRoomsComponent implements OnInit {
 
     rooms: Room[];
     departments: Department[];
-    displayedColumns: string[] = ["name", "level", "department", "update"];
-    displayedColumnsDept: string[] = ["nameDept", "updateDept"];
+    displayedColumns: string[] = ['name', 'level', 'department', 'update'];
+    displayedColumnsDept: string[] = ['nameDept', 'updateDept'];
     dataSource: MatTableDataSource<Room>;
     dataSourceDept: MatTableDataSource<Department>;
     toUpdate: Room;
@@ -45,6 +45,10 @@ export class DepartmentsAndRoomsComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.loadDepartmentsAndRooms();
+    }
+
+    loadDepartmentsAndRooms() {
         this.getDepartments();
         this.getRooms();
     }
@@ -94,18 +98,21 @@ export class DepartmentsAndRoomsComponent implements OnInit {
         this.departmentsService.getDepartmentByID(dept.id).subscribe(dept => this.toUpdateDept = dept);
     }
 
-    updateRoom(id: number, name: string, department: number, level: string): void {
-        name = name.trim();
-        level = level.trim();
-        if (!name || !level) {
+    updateRoom(): void {
+        if (!this.toUpdate.name.trim() || !this.toUpdate.level.trim()) {
             return;
         }
+
+        this.toUpdate.name = this.toUpdate.name.trim();
+        this.toUpdate.level = this.toUpdate.level.trim();
+
         // @ts-ignore
-        this.roomsService.updateRoom({id, department, name, level} as Room).subscribe(_ => {
+        this.roomsService.updateRoom(this.toUpdate).subscribe(_ => {
             this.ngOnInit();
             this.toUpdate = null;
         });
     }
+
     updateDept(id: number, name: string): void {
         name = name.trim();
 
@@ -121,6 +128,14 @@ export class DepartmentsAndRoomsComponent implements OnInit {
 
     getDeptByID(id: number): string {
         return this.departments.filter(d => d.id === id)[0].name;
+    }
+
+    closeRoomUpdate() {
+        this.toUpdate = null;
+    }
+
+    closeDepartmentUpdate() {
+        this.toUpdateDept = null;
     }
 
 }
