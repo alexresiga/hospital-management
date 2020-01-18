@@ -19,6 +19,7 @@ import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService {
@@ -111,6 +112,11 @@ public class UserService {
     @Transactional
     public UserDto getUserById(Integer id) {
         return UserConverter.convertUserToDTO(userRepository.findById(id).orElseThrow(NotFoundException::new));
+    }
+
+    @Transactional
+    public List<UserDto> getAllUsers() {
+        return userRepository.findAll().stream().map(UserConverter::convertUserToDTO).collect(Collectors.toList());
     }
 
 }
