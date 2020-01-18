@@ -6,7 +6,8 @@ import {Room} from '../model/Room';
 
 
 const httpOptions = {
-    headers: new HttpHeaders({'Content-Type': 'application/json'})
+    headers: new HttpHeaders({'Content-Type': 'application/json'}),
+    withCredentials: true
 };
 
 
@@ -22,7 +23,7 @@ export class RoomsService {
     }
 
     getRooms(): Observable<Room[]> {
-        return this.http.get<Room[]>(this.baseUrl)
+        return this.http.get<Room[]>(this.baseUrl, httpOptions)
             .pipe(catchError(this.handleError(undefined)));
     }
 
@@ -40,7 +41,7 @@ export class RoomsService {
     }
 
     getRoomByID(id: number): Observable<Room> {
-        return this.http.get<Room>(`${this.baseUrl}/${id}`).pipe(catchError(this.handleError(undefined)));
+        return this.http.get<Room>(`${this.baseUrl}/${id}`, httpOptions).pipe(catchError(this.handleError(undefined)));
     }
 
     updateRoom(room: Room): Observable<Room> {
