@@ -45,6 +45,11 @@ public class UserService {
     }
 
     @Transactional
+    public List<UserDto> getUsers(){
+        return userRepository.findAll().stream().map(UserConverter::convertUserToDTO).collect(Collectors.toList());
+    }
+
+    @Transactional
     public boolean deleteUser(Integer id) {
         List<Appointment> appointments = new ArrayList<>(appointmentRepository.findAll());
         for (Appointment appointment : appointments)

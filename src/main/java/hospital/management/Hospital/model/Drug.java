@@ -1,10 +1,7 @@
 package hospital.management.Hospital.model;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
@@ -16,6 +13,7 @@ import java.util.Set;
 @Data
 @Builder
 @Table(name = "drugs")
+@EqualsAndHashCode(exclude = {"prescriptions"})
 public class Drug {
 
     @Id
@@ -24,6 +22,6 @@ public class Drug {
 
     private String name;
 
-    @ManyToMany(mappedBy = "drugs")
+    @ManyToMany(mappedBy = "drugs", fetch = FetchType.LAZY)
     private Set<Prescription> prescriptions;
 }
