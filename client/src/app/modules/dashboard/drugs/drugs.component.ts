@@ -1,7 +1,12 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import { Drug } from 'src/app/shared/model/Drug';
 import { MatTableDataSource } from '@angular/material';
+
+const httpOptions = {
+  headers: new HttpHeaders({'Content-Type': 'application/json'}),
+  withCredentials: true
+};
 
 @Component({
   selector: 'app-drugs',
@@ -21,7 +26,7 @@ export class DrugsComponent implements OnInit {
   }
 
   getDrugs() {
-    this.http.get<Drug[]>('http://localhost:8080/api/drugList').subscribe(
+    this.http.get<Drug[]>('http://localhost:8080/api/drugList', httpOptions).subscribe(
       response => {
         this.drugs = response;
       },
@@ -30,7 +35,7 @@ export class DrugsComponent implements OnInit {
   }
 
   addDrug() {
-    this.http.post('http://localhost:8080/api/drug', this.drug).subscribe(
+    this.http.post('http://localhost:8080/api/drug', this.drug, httpOptions).subscribe(
       () => {
         this.getDrugs();
       },
@@ -39,7 +44,7 @@ export class DrugsComponent implements OnInit {
   }
 
   deleteDrug(id: any) {
-    this.http.delete('http://localhost:8080/api/drug/' + id).subscribe(
+    this.http.delete('http://localhost:8080/api/drug/' + id, httpOptions).subscribe(
       () => {
         this.getDrugs();
       },
@@ -48,7 +53,7 @@ export class DrugsComponent implements OnInit {
   }
 
   editDrug() {
-    this.http.put('http://localhost:8080/api/drug/' + this.drug.id, this.drug).subscribe(
+    this.http.put('http://localhost:8080/api/drug/' + this.drug.id, this.drug, httpOptions).subscribe(
       () => {
         this.getDrugs();
       },
