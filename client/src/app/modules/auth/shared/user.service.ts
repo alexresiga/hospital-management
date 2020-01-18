@@ -1,7 +1,10 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import User, {UserLoginInput, UserSignupInput} from './user.model';
-import {Observable} from 'rxjs';
+import {Observable, of} from 'rxjs';
+import {Department} from "../../../shared/model/Department";
+import {catchError} from "rxjs/operators";
+import {Room} from "../../../shared/model/Room";
 
 @Injectable()
 export class UserService {
@@ -16,6 +19,12 @@ export class UserService {
 
   getCurrentUser(): Observable<User> {
     return this.http.get<User>('/api/user', this.httpOptions);
+  }
+  private baseUrl = "http://localhost:8080/api/users";
+
+  getUsers(): Observable<User[]> {
+    return this.http.get<User[]>(this.baseUrl)
+        .pipe(catchError(this.handleError(undefined)));
   }
 
   signup(input: UserSignupInput): Observable<any> {
@@ -37,6 +46,15 @@ export class UserService {
 
   logout(): Observable<void> {
     return this.http.post<void>('/api/logout', '', this.httpOptions);
+  }
+
+  getUserById(id: number): Observable<User> {
+    return this.http.get<User>(`${this.baseUrl}/${id}`).pipe(catchError(this.handleError(undefined)));
+  }
+  private handleError<T>(result?: T) {
+    return (error: any): Observable<T> => {
+      return of(result as T);
+    };
   }
 
 }

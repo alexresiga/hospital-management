@@ -1,9 +1,12 @@
 package hospital.management.Hospital.controller;
 
+import hospital.management.Hospital.dto.RoomDto;
 import hospital.management.Hospital.dto.UserDto;
 import hospital.management.Hospital.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 
 @RestController
@@ -25,6 +28,11 @@ public class UserController {
     @PostMapping("/api/users")
     public UserDto createUser(@RequestBody UserDto data) {
         return userService.createUser(data);
+    }
+
+    @GetMapping("/api/users")
+    public List<UserDto> getAllUsers() {
+        return userService.getAllUsers();
     }
 
     @DeleteMapping("/api/users/{id}")

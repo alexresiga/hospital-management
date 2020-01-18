@@ -12,7 +12,7 @@ export class UserSignupInput {
 export default class User {
   id: number;
   username: string;
-  fullName: string;
+  full_name: string;
   email: string;
   roles: UserRole[];
 }

@@ -1,6 +1,8 @@
 package hospital.management.Hospital.service;
 
+import hospital.management.Hospital.converter.RoomConverter;
 import hospital.management.Hospital.converter.UserConverter;
+import hospital.management.Hospital.dto.RoomDto;
 import hospital.management.Hospital.dto.UserDto;
 import hospital.management.Hospital.exceptions.NotFoundException;
 import hospital.management.Hospital.model.Appointment;
@@ -19,6 +21,7 @@ import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService {
@@ -66,6 +69,11 @@ public class UserService {
     public UserDto getUserByUsername(String username) {
         User user = userRepository.findUserByUsername(username).isPresent() ? userRepository.findUserByUsername(username).get() : null;
         return user != null ? UserConverter.convertUserToDTO(user) : null;
+    }
+
+    @Transactional
+    public List<UserDto> getAllUsers() {
+        return userRepository.findAll().stream().map(UserConverter::convertUserToDTO).collect(Collectors.toList());
     }
 
     @Transactional

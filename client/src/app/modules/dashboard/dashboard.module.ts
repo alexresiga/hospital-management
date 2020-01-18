@@ -14,6 +14,7 @@ import {MatInputModule} from '@angular/material/input';
 import {MatButtonModule} from '@angular/material/button';
 import {MatTableModule} from '@angular/material/table';
 import {MatTabsModule} from '@angular/material/tabs';
+import {AppointmentsComponent} from "./appointments/appointments.component";
 
 @NgModule({
   imports: [
@@ -31,7 +32,7 @@ import {MatTabsModule} from '@angular/material/tabs';
     MatTableModule,
     MatTabsModule
   ],
-  declarations: [DashboardComponent, NavbarComponent, DepartmentsAndRoomsComponent],
+  declarations: [DashboardComponent, NavbarComponent, DepartmentsAndRoomsComponent, AppointmentsComponent],
   exports: []
 })
 export class DashboardModule {}
