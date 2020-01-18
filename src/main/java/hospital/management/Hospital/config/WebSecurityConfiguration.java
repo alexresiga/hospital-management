@@ -61,26 +61,31 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
+
                 .cors().and().csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/api/login").permitAll()
-                .antMatchers("/api/register").permitAll()
-                .anyRequest().authenticated()
-                .and()
-                .formLogin()
-                .loginProcessingUrl("/api/login")
-                .usernameParameter("email")
-                .passwordParameter("password")
-                .failureHandler((req, res, e) -> sendError(res, 401))
-                .successHandler((req, res, a) -> res.setStatus(200)).and()
-                .exceptionHandling()
-                .accessDeniedHandler((req, res, e) -> sendError(res, 403))
-                .authenticationEntryPoint((req, res, e) -> sendError(res, 401))
-                .and()
-                .logout()
-                .logoutUrl("/api/logout")
-                .deleteCookies("JSESSIONID")
-                .logoutSuccessHandler((req, res, a) -> res.setStatus(200));
+                .antMatchers("/**").permitAll();
+//                .antMatchers("/api/login").permitAll()
+//                .antMatchers("/api/register").permitAll()
+//                .antMatchers( HttpMethod.POST,"/api/drug/**").hasAuthority("admin")
+//                .antMatchers( HttpMethod.PUT,"/api/drug/**").hasAuthority("admin")
+//                .antMatchers( HttpMethod.DELETE,"/api/drug/**").hasAuthority("admin")
+//                .anyRequest().authenticated()
+//                .and()
+//                .formLogin()
+//                .loginProcessingUrl("/api/login")
+//                .usernameParameter("email")
+//                .passwordParameter("password")
+//                .failureHandler((req, res, e) -> sendError(res, 401))
+//                .successHandler((req, res, a) -> res.setStatus(200)).and()
+//                .exceptionHandling()
+//                .accessDeniedHandler((req, res, e) -> sendError(res, 403))
+//                .authenticationEntryPoint((req, res, e) -> sendError(res, 401))
+//                .and()
+//                .logout()
+//                .logoutUrl("/api/logout")
+//                .deleteCookies("JSESSIONID")
+//                .logoutSuccessHandler((req, res, a) -> res.setStatus(200));
         http.sessionManagement().invalidSessionUrl("/");
     }
 
