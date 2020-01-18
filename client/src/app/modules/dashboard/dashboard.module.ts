@@ -17,6 +17,7 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatTableModule} from '@angular/material/table';
 import {MatTabsModule} from '@angular/material/tabs';
 import {PrescriptionsComponent} from "./prescriptions/prescriptions.component";
+import {AppointmentsComponent} from "./appointments/appointments.component";
 
 
 @NgModule({
@@ -35,7 +36,8 @@ import {PrescriptionsComponent} from "./prescriptions/prescriptions.component";
     MatTableModule,
     MatTabsModule
   ],
-  declarations: [DashboardComponent, NavbarComponent, DepartmentsAndRoomsComponent, DrugsComponent, DoctorsComponent, PrescriptionsComponent],
+
+  declarations: [DashboardComponent, NavbarComponent, DepartmentsAndRoomsComponent,DrugsComponent, DoctorsComponent, PrescriptionsComponent, AppointmentsComponent],
   exports: []
 })
 export class DashboardModule {}

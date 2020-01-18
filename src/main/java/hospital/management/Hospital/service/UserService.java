@@ -1,5 +1,6 @@
 package hospital.management.Hospital.service;
 
+import hospital.management.Hospital.converter.RoomConverter;
 import hospital.management.Hospital.converter.UserConverter;
 import hospital.management.Hospital.dto.SignupUserDto;
 import hospital.management.Hospital.dto.UserDto;
@@ -49,13 +50,6 @@ public class UserService {
     }
 
     @Transactional
-    public UserDto getUserByEmail(String email) {
-        User user = userRepository.findUserByEmail(email).isPresent() ? userRepository.findUserByEmail(email).get() : null;
-        return user != null ? UserConverter.convertUserToDTO(user) : null;
-    }
-
-
-    @Transactional
     public boolean deleteUser(Integer id) {
         List<Appointment> appointments = new ArrayList<>(appointmentRepository.findAll());
         for (Appointment appointment : appointments)
@@ -76,7 +70,11 @@ public class UserService {
         userRepository.findById(user.getId()).ifPresent(user_found -> user_found.setPassword(user.getPassword()));
     }
 
-    @Transactional
+        @Transactional
+    public UserDto getUserByEmail(String email) {
+        User user = userRepository.findUserByEmail(email).isPresent() ? userRepository.findUserByEmail(email).get() : null;
+        return user != null ? UserConverter.convertUserToDTO(user) : null;
+    }
     public ErrorMessage registerUser(SignupUserDto userDto) {
 
         Optional<Role> role = userRepository.count() > 0

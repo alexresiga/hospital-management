@@ -1,7 +1,10 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {UserLoginInput, UserSignupInput} from './user.model';
-import {Observable} from 'rxjs';
+import {Department} from "../../../shared/model/Department";
+import {catchError} from "rxjs/operators";
+import {Room} from "../../../shared/model/Room";
+import User, {UserLoginInput, UserSignupInput} from './user.model';
+import {Observable, of} from 'rxjs';
 
 import {User as UserDto} from '../../../shared/model/User';
 
@@ -16,6 +19,13 @@ export class UserService {
     }),
     withCredentials: true
   };
+
+  private baseUrl2 = "http://localhost:8080/api/users";
+
+  getUsers(): Observable<User[]> {
+    return this.http.get<User[]>(this.baseUrl2, this.httpOptions)
+        .pipe(catchError(this.handleError(undefined)));
+  }
   getCurrentUser(): Observable<UserDto> {
     return this.http.get<UserDto>(`${this.baseUrl}/currentUser`, this.httpOptions);
   }
@@ -41,6 +51,15 @@ export class UserService {
   logout(): Observable<void> {
     const url = `${this.baseUrl}/logout`;
     return this.http.post<void>(url, '', this.httpOptions);
+  }
+
+  getUserById(id: number): Observable<User> {
+    return this.http.get<User>(`${this.baseUrl}/${id}`).pipe(catchError(this.handleError(undefined)));
+  }
+  private handleError<T>(result?: T) {
+    return (error: any): Observable<T> => {
+      return of(result as T);
+    };
   }
 
 }
