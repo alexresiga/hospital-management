@@ -45,9 +45,10 @@ public class DepartmentService {
     @Transactional
     public DepartmentDto updateDepartment(Integer id, DepartmentDto departmentDto) {
         Department department = departmentRepository.findById(id).orElseThrow(NotFoundException::new);
-        Set<Room> rooms = departmentDto.getRooms().stream().map(room -> roomRepository.findById(room).orElse(null)).collect(Collectors.toSet());
         department.setName(departmentDto.getName());
-        department.setRooms(rooms);
+
+        //Set<Room> rooms = departmentDto.getRooms().stream().map(room -> roomRepository.findById(room).orElse(null)).collect(Collectors.toSet());
+        //department.setRooms(rooms);
 
         departmentRepository.save(department);
         return DepartmentConverter.convertDepartmentToDTO(department);

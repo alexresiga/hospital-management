@@ -4,7 +4,7 @@ main {
     height: 100%;
     padding-top: 5rem;
 
-    background-image: url('/assets/img/gray-surface.jpg');
+    background-image: url('../../../assets/img/gray-surface.jpg');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;

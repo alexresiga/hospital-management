@@ -1,0 +1,163 @@
+<app-navbar></app-navbar>
+<mat-tab-group mat-align-tabs="center" id="main">
+    <mat-tab label="Rooms">
+        <mat-grid-list cols="2" rowHeight="1:1">
+            <mat-grid-tile>
+                <div *ngIf="!toUpdate">
+                    <form class="example-container">
+                        <mat-form-field class="example-full-width">
+                            <input #roomName matInput placeholder="Name" required>
+
+                        </mat-form-field>
+
+                        <mat-form-field class="example-full-width">
+                            <input #roomLevel matInput placeholder="Level" required/>
+
+                        </mat-form-field>
+
+                        <mat-form-field>
+                            <mat-select #roomDept placeholder="Department" required>
+                                <mat-option *ngFor="let dept of departments" [value]="dept.id">
+                                    {{dept.name}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+
+                        <button mat-raised-button color="primary"
+                                (click)="addRoom(roomName.value, roomDept.value,roomLevel.value); roomName.value=''; roomLevel.value=''">
+                            Add Room
+                        </button>
+                    </form>
+                </div>
+                <div *ngIf="toUpdate">
+                    <div id = "closeRoomUpdate">
+                        <button mat-icon-button (click)="closeRoomUpdate()">
+                            <mat-icon>close</mat-icon>
+                        </button>
+                    </div>
+                    <form class="example-container">
+
+                        <mat-form-field class="example-full-width">
+                            <input #clientNameUpdate [(ngModel)]="toUpdate.name" matInput placeholder="Name" required
+                                   name="name">
+
+                        </mat-form-field>
+                        <mat-form-field>
+                            <mat-select #roomDeptUpdate [(ngModel)]="toUpdate.department"
+                                        [ngModelOptions]="{standalone: true}">
+                                <mat-option *ngFor="let dept of departments" [value]="dept.id">
+                                    {{dept.name}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+
+                        <mat-form-field class="example-full-width">
+                            <input #clientAddressUpdate [(ngModel)]="toUpdate.level" matInput placeholder="Level"
+                                   required name="level"/>
+
+                        </mat-form-field>
+
+                        <button mat-raised-button color="primary"
+                                (click)="updateRoom(); clientNameUpdate.value=''; clientAddressUpdate.value=''">
+                            Update Room
+                        </button>
+                    </form>
+                </div>
+            </mat-grid-tile>
+
+            <mat-grid-tile>
+                <div class="example-container filter">
+                    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+                        <ng-container matColumnDef="name">
+                            <th mat-header-cell *matHeaderCellDef> Name</th>
+                            <td mat-cell *matCellDef="let room"> {{room.name}}</td>
+                        </ng-container>
+                        <ng-container matColumnDef="level">
+                            <th mat-header-cell *matHeaderCellDef> Level</th>
+                            <td mat-cell *matCellDef="let room"> {{room.level}}</td>
+                        </ng-container>
+                        <ng-container matColumnDef="department">
+                            <th mat-header-cell *matHeaderCellDef> Department</th>
+                            <td mat-cell *matCellDef="let room"> {{getDeptByID(room.department)}}</td>
+                        </ng-container>
+                        <ng-container matColumnDef="update">
+                            <th mat-header-cell *matHeaderCellDef> Action</th>
+                            <td mat-cell *matCellDef="let room">
+                                <button mat-icon-button color="primary" (click)="update(room)">
+                                    <mat-icon>edit</mat-icon>
+                                </button>
+                                <button mat-icon-button color="warn" (click)="delete(room)">
+                                    <mat-icon>delete</mat-icon>
+                                </button>
+                            </td>
+                        </ng-container>
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                    </table>
+                </div>
+            </mat-grid-tile>
+        </mat-grid-list>
+    </mat-tab>
+    <mat-tab label="Departments">
+        <mat-grid-list cols="2" rowHeight="1:1">
+            <mat-grid-tile>
+                <div *ngIf="!toUpdateDept">
+                    <form class="example-container">
+                        <mat-form-field class="example-full-width">
+                            <input #deptName matInput placeholder="Name" required>
+                        </mat-form-field>
+                        <button mat-raised-button color="primary"
+                                (click)="addDept(deptName.value); deptName.value=''">
+                            Add Department
+                        </button>
+                    </form>
+                </div>
+                <div *ngIf="toUpdateDept">
+                    <div id = "closeDepartmentUpdate">
+                        <button mat-icon-button (click)="closeDepartmentUpdate()">
+                            <mat-icon>close</mat-icon>
+                        </button>
+                    </div>
+
+                    <form class="example-container">
+
+                        <mat-form-field class="example-full-width">
+                            <input #deptNameUpdate [(ngModel)]="toUpdateDept.name" matInput placeholder="Name" required
+                                   name="nameDept">
+
+                        </mat-form-field>
+                        <button mat-raised-button color="primary"
+                                (click)="updateDept(toUpdateDept.id, deptNameUpdate.value); deptNameUpdate.value=''">
+                            Update Department
+                        </button>
+                    </form>
+                </div>
+            </mat-grid-tile>
+
+            <mat-grid-tile>
+                <div class="example-container filter">
+                    <table mat-table [dataSource]="dataSourceDept" class="mat-elevation-z8">
+                        <ng-container matColumnDef="nameDept">
+                            <th mat-header-cell *matHeaderCellDef> Name</th>
+                            <td mat-cell *matCellDef="let dept"> {{dept.name}}</td>
+                        </ng-container>
+                        <ng-container matColumnDef="updateDept">
+                            <th mat-header-cell *matHeaderCellDef> Action</th>
+                            <td mat-cell *matCellDef="let dept">
+                                <button mat-icon-button color="primary" (click)="updateTableDept(dept)">
+                                    <mat-icon>edit</mat-icon>
+                                </button>
+                                <button mat-icon-button color="warn" (click)="deleteDept(dept)">
+                                    <mat-icon>delete</mat-icon>
+                                </button>
+                            </td>
+                        </ng-container>
+                        <tr mat-header-row *matHeaderRowDef="displayedColumnsDept"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumnsDept;"></tr>
+                    </table>
+                </div>
+            </mat-grid-tile>
+        </mat-grid-list>
+
+    </mat-tab>
+</mat-tab-group>
