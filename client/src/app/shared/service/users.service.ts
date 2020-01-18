@@ -5,7 +5,8 @@ import {catchError} from "rxjs/operators";
 import {User} from "../model/User";
 
 const httpOptions = {
-  headers: new HttpHeaders({'Content-Type': 'application/json'})
+  headers: new HttpHeaders({'Content-Type': 'application/json'}),
+  withCredentials: true
 };
 
 @Injectable({
@@ -17,7 +18,7 @@ export class UsersService {
   constructor(private http: HttpClient) {}
 
   getUsers(): Observable<User[]> {
-    return this.http.get<User[]>(this.baseUrl)
+    return this.http.get<User[]>(this.baseUrl, httpOptions)
       .pipe(catchError(this.handleError(undefined)));
   }
 
