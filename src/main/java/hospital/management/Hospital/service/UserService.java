@@ -71,9 +71,10 @@ public class UserService {
         return user != null ? UserConverter.convertUserToDTO(user) : null;
     }
 
-    @Transactional
-    public List<UserDto> getAllUsers() {
-        return userRepository.findAll().stream().map(UserConverter::convertUserToDTO).collect(Collectors.toList());
+        @Transactional
+    public UserDto getUserByEmail(String email) {
+        User user = userRepository.findUserByEmail(email).isPresent() ? userRepository.findUserByEmail(email).get() : null;
+        return user != null ? UserConverter.convertUserToDTO(user) : null;
     }
 
     @Transactional
@@ -113,6 +114,11 @@ public class UserService {
     @Transactional
     public UserDto getUserById(Integer id) {
         return UserConverter.convertUserToDTO(userRepository.findById(id).orElseThrow(NotFoundException::new));
+    }
+
+    @Transactional
+    public List<UserDto> getAllUsers() {
+        return userRepository.findAll().stream().map(UserConverter::convertUserToDTO).collect(Collectors.toList());
     }
 
 }

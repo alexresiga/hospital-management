@@ -10,6 +10,8 @@ import {Room} from "../../../shared/model/Room";
 export class UserService {
   constructor(private http: HttpClient) {}
 
+  private baseUrl = "http://localhost:8080";
+
   private httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json'
@@ -20,10 +22,10 @@ export class UserService {
   getCurrentUser(): Observable<User> {
     return this.http.get<User>('/api/user', this.httpOptions);
   }
-  private baseUrl = "http://localhost:8080/api/users";
+  private baseUrl2 = "http://localhost:8080/api/users";
 
   getUsers(): Observable<User[]> {
-    return this.http.get<User[]>(this.baseUrl)
+    return this.http.get<User[]>(this.baseUrl2)
         .pipe(catchError(this.handleError(undefined)));
   }
 
@@ -41,11 +43,19 @@ export class UserService {
     const body = new URLSearchParams();
     body.append('email', input.username);
     body.append('password', input.password);
-    return this.http.post<User>('/api/login', body.toString(), this.httpOptions);
+
+    const url = `${this.baseUrl}/api/login?${body}`;
+
+    // this.httpOptions.headers.append('Authorization', 'Basic ' + btoa(input.username + ':' + input.password));
+    // this.httpOptions.headers.append('Origin', 'htps://localhost:8080');
+    // console.log(body.toString());
+
+    return this.http.post<any>(url, body, this.httpOptions);
   }
 
   logout(): Observable<void> {
-    return this.http.post<void>('/api/logout', '', this.httpOptions);
+    const url = `${this.baseUrl}/api/logout`;
+    return this.http.post<void>(url, '', this.httpOptions);
   }
 
   getUserById(id: number): Observable<User> {

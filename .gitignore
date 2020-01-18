@@ -27,6 +27,7 @@ modules/.settings
 modules/.vscode
 .vimrc
 .nvimrc
+*.iml
 
 # Don't check in secret files
 *secret.js

@@ -15,6 +15,11 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @GetMapping("/api/users")
+    public List<UserDto> getUsers() {
+      return this.userService.getAllUsers();
+    }
+
     @GetMapping("/api/user/{username}")
     public UserDto getUser(@PathVariable String username) {
         return userService.getUserByUsername(username);
@@ -28,11 +33,6 @@ public class UserController {
     @PostMapping("/api/users")
     public UserDto createUser(@RequestBody UserDto data) {
         return userService.createUser(data);
-    }
-
-    @GetMapping("/api/users")
-    public List<UserDto> getAllUsers() {
-        return userService.getAllUsers();
     }
 
     @DeleteMapping("/api/users/{id}")
