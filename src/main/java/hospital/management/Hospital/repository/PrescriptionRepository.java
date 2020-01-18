@@ -8,8 +8,7 @@ import org.springframework.data.repository.query.Param;
 
 public interface PrescriptionRepository extends JpaRepository<Prescription, Integer> {
 
-    @Query(value = "select P from PRESCRIPTIONS P inner join PRESCRIPTED_DRUGS PD on P.id = PD.prescription_id\n"+
-            " inner join DRUGS D on PD.drug_id = D.id\n"+
-            " where P.id = :id", nativeQuery = true)
-        Prescription getDrugsFromPrescription(@Param("id") Integer id);
+    @Query(value = "select * from PRESCRIPTIONS inner join PRESCRIPTED_DRUGS  on PRESCRIPTIONS.id = PRESCRIPTED_DRUGS.prescription_id  inner join DRUGS on PRESCRIPTED_DRUGS.drug_id = DRUGS.id where prescriptions.id = ?1 "
+            , nativeQuery = true)
+    Prescription getDrugsFromPrescription(Integer id);
 }

@@ -1,5 +1,6 @@
 package hospital.management.Hospital.service;
 
+import hospital.management.Hospital.controller.AppointmentController;
 import hospital.management.Hospital.converter.AppointmentConverter;
 import hospital.management.Hospital.dto.AppointmentDto;
 import hospital.management.Hospital.exceptions.ExceptionClass;

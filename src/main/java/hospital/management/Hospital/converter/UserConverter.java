@@ -12,11 +12,9 @@ public class UserConverter {
     {
         return User.builder()
                 .id(userDto.getId())
-                .username(userDto.getUsername())
                 .password(userDto.getPassword())
                 .full_name(userDto.getFull_name())
                 .email(userDto.getEmail())
-                .phone_number(userDto.getPhone_number())
                 .build();
     }
 
@@ -24,11 +22,9 @@ public class UserConverter {
     {
         return UserDto.builder()
                 .id(user.getId())
-                .username(user.getUsername())
                 .password(user.getPassword())
                 .full_name(user.getFull_name())
                 .email(user.getEmail())
-                .phone_number(user.getPhone_number())
                 .role(user.getRole().getId())
                 .build();
     }

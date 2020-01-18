@@ -1,11 +1,14 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import User, {UserLoginInput, UserSignupInput} from './user.model';
+import {UserLoginInput, UserSignupInput} from './user.model';
 import {Observable} from 'rxjs';
+
+import {User as UserDto} from '../../../shared/model/User';
 
 @Injectable()
 export class UserService {
   constructor(private http: HttpClient) {}
+  private baseUrl = 'http://localhost:8080/api';
 
   private httpOptions = {
     headers: new HttpHeaders({
@@ -13,30 +16,31 @@ export class UserService {
     }),
     withCredentials: true
   };
-
-  getCurrentUser(): Observable<User> {
-    return this.http.get<User>('/api/user', this.httpOptions);
+  getCurrentUser(): Observable<UserDto> {
+    return this.http.get<UserDto>(`${this.baseUrl}/currentUser`, this.httpOptions);
   }
 
   signup(input: UserSignupInput): Observable<any> {
-    const body = new URLSearchParams();
-
-    body.append('fullName', input.fullName);
-    body.append('email', input.email);
-    body.append('password', input.password);
-
-    return this.http.post<any>('/api/signup', body.toString(), this.httpOptions);
+    return this.http.post<any>(`${this.baseUrl}/register`, JSON.stringify(input), this.httpOptions);
   }
 
-  login(input: UserLoginInput): Observable<User> {
+  login(input: UserLoginInput): Observable<any> {
     const body = new URLSearchParams();
     body.append('email', input.username);
     body.append('password', input.password);
-    return this.http.post<User>('/api/login', body.toString(), this.httpOptions);
+
+    const url = `${this.baseUrl}/login?${body}`;
+
+    // this.httpOptions.headers.append('Authorization', 'Basic ' + btoa(input.username + ':' + input.password));
+    // this.httpOptions.headers.append('Origin', 'htps://localhost:8080');
+    // console.log(body.toString());
+
+    return this.http.post<any>(url, body, this.httpOptions);
   }
 
   logout(): Observable<void> {
-    return this.http.post<void>('/api/logout', '', this.httpOptions);
+    const url = `${this.baseUrl}/logout`;
+    return this.http.post<void>(url, '', this.httpOptions);
   }
 
 }

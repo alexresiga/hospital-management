@@ -1,3 +1,17 @@
 #signup-form button {
     float: right;
 }
+
+#loader-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.75);
+}
+
+#loader-container > * {
+    left: calc(50% - 25px);
+    top: calc(50% - 25px);
+}

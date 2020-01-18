@@ -1,16 +1,17 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { Store } from '@ngrx/store';
+import { Store, ActionsSubject } from '@ngrx/store';
 import { State } from 'src/app/shared/store';
-import { SignupUser } from '../../auth/shared/state/user.actions';
-import { Observable } from 'rxjs';
+import { SignupUser, UserActionsTypes } from '../../auth/shared/state/user.actions';
+import { Observable, Subscription } from 'rxjs';
 import { selectUserError } from '../../auth/shared/state/user.reducer';
+import { ofType } from '@ngrx/effects';
+import { MatSnackBar } from '@angular/material';
 
 @Component({
     selector: 'app-signup-form',
     templateUrl: './signup-form.component.html',
-    styleUrls: ['./signup-form.component.css'],
-    changeDetection: ChangeDetectionStrategy.OnPush
+    styleUrls: ['./signup-form.component.css']
 })
 export class SignupFormComponent implements OnInit {
     errorMessage$: Observable<string>;
@@ -18,9 +19,13 @@ export class SignupFormComponent implements OnInit {
     isEmailValid = true;
     isPasswordValid = true;
     isPasswordConfirmationValid = true;
+    isLoading = false;
+    signupSuccessSubs = new Subscription();
 
     constructor(
-        private store: Store<State>
+        private store: Store<State>,
+        private actionsSubj: ActionsSubject,
+        private _snackBar: MatSnackBar
     ) {
         this.errorMessage$ = this.store.select(selectUserError);
 
@@ -52,6 +57,15 @@ export class SignupFormComponent implements OnInit {
                 this.isPasswordConfirmationValid = this.passwordConfirmationValidator();
             }
         });
+
+        this.signupSuccessSubs = this.actionsSubj.pipe(ofType(UserActionsTypes.SIGNUP_USER_SUCCESS))
+            .subscribe(_ => {
+                this.isLoading = false;
+                this._snackBar.open('User successfully created!', null, {
+                    duration: 2000,
+                    panelClass: 'success-snackbar'
+                });
+            });
     }
 
     passwordConfirmationValidator(): boolean {
@@ -74,6 +88,7 @@ export class SignupFormComponent implements OnInit {
         event.preventDefault();
 
         if (this.isFormValid()) {
+            this.isLoading = true;
             this.store.dispatch(new SignupUser({
                 fullName: this.form.get('fullName').value,
                 email: this.form.get('email').value,

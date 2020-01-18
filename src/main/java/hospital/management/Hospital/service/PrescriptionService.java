@@ -33,10 +33,11 @@ public class PrescriptionService {
     private UserRepository userRepository;
 
     @Transactional
-    public List<PrescriptionDto> findAllPrescriptions(){
+    public List<PrescriptionDto> findAllPrescriptions() {
         return prescriptionRepository.findAll().stream()
-                                    .map(PrescriptionConverter::convertPrescriptionToDto)
-                                    .collect(Collectors.toList());
+                .map(presc -> prescriptionRepository.getDrugsFromPrescription(presc.getId()))
+                .map(PrescriptionConverter::convertPrescriptionToDto)
+                .collect(Collectors.toList());
     }
 
     @Transactional

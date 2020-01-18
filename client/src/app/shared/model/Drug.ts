@@ -1,4 +1,5 @@
 export class Drug {
-  id: number;
-  name: string;
+    id: number;
+    name: string;
 }
+

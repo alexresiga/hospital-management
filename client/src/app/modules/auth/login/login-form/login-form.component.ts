@@ -22,6 +22,8 @@ export class LoginFormComponent {
 
   onSubmit() {
     const { username, password } = this.form.value;
+    console.log(username, password);
+
     this.loginAction.emit({username, password});
   }
 

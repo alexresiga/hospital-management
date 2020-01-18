@@ -3,6 +3,7 @@ package hospital.management.Hospital.model;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
@@ -26,7 +27,7 @@ public class Appointment {
     @JoinColumn(name = "patient_id", referencedColumnName = "id")
     private User patient;
 
-    private Date date;
+    private LocalDate date;
 
     @ManyToOne
     @JoinColumn(name = "room_id", referencedColumnName = "id")
