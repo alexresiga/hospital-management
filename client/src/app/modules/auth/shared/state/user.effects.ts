@@ -8,7 +8,8 @@ import {
   LoginUserSuccess,
   LogoutUser, LogoutUserSuccess,
   UserActionsTypes,
-  SignupUser
+  SignupUser,
+  SignupUserSuccess
 } from './user.actions';
 import {catchError, map, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
@@ -34,6 +35,7 @@ export class UserEffects {
   signupUser$ = this.actions$.pipe(
     ofType<SignupUser>(UserActionsTypes.SIGNUP_USER),
     switchMap(action => this.userService.signup(action.payload)),
+    map(_ => new SignupUserSuccess()),
     catchError(error => of(new UserError(error)))
   );
 

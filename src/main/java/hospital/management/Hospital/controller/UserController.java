@@ -12,20 +12,15 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @GetMapping("/api/user/{username}")
-    public UserDto getUser(@PathVariable String username) {
-        return userService.getUserByUsername(username);
-    }
-
     @GetMapping("/api/users/{id}")
     public UserDto getUserById(@PathVariable("id") Integer id) {
         return userService.getUserById(id);
     }
 
-    @PostMapping("/api/users")
+    /*@PostMapping("/api/users")
     public UserDto createUser(@RequestBody UserDto data) {
-        return userService.createUser(data);
-    }
+        return null;
+    }*/
 
     @DeleteMapping("/api/users/{id}")
     public boolean deleteUser(@PathVariable("id") Integer id) {

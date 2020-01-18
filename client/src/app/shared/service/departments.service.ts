@@ -1,9 +1,9 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {Observable, of} from "rxjs";
-import {catchError} from "rxjs/operators";
-import {Department} from "../model/Department";
-import {Room} from "../model/Room";
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {Observable, of} from 'rxjs';
+import {catchError} from 'rxjs/operators';
+import {Department} from '../model/Department';
+import {Room} from '../model/Room';
 
 const httpOptions = {
   headers: new HttpHeaders({'Content-Type': 'application/json'})
@@ -14,7 +14,7 @@ const httpOptions = {
 })
 export class DepartmentsService {
 
-  private baseUrl = "http://localhost:8080/api/departments";
+  private baseUrl = 'http://localhost:8080/api/departments';
 
   constructor(private http: HttpClient) {
   }
@@ -30,7 +30,7 @@ export class DepartmentsService {
   }
 
   delete(dept: number | Department): Observable<Department> {
-    const id = typeof dept === "number" ? dept : dept.id;
+    const id = typeof dept === 'number' ? dept : dept.id;
     const url = `${this.baseUrl}/${id}`;
 
     return this.http.delete<Department>(url, httpOptions).pipe(catchError(this.handleError(undefined)));

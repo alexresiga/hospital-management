@@ -6,12 +6,12 @@ import {Observable} from 'rxjs';
 @Injectable()
 export class UserService {
   constructor(private http: HttpClient) {}
+  private baseUrl = 'http://localhost:8080/api';
 
   private httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json'
-    }),
-    withCredentials: true
+    })
   };
 
   getCurrentUser(): Observable<User> {
@@ -19,13 +19,7 @@ export class UserService {
   }
 
   signup(input: UserSignupInput): Observable<any> {
-    const body = new URLSearchParams();
-
-    body.append('fullName', input.fullName);
-    body.append('email', input.email);
-    body.append('password', input.password);
-
-    return this.http.post<any>('/api/signup', body.toString(), this.httpOptions);
+    return this.http.post<any>(`${this.baseUrl}/register`, JSON.stringify(input), this.httpOptions);
   }
 
   login(input: UserLoginInput): Observable<User> {
