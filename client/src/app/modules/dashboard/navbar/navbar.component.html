@@ -28,10 +28,7 @@
 		<li ngbDropdown class="nav-item d-inline-block my-2 my-lg-auto">
             <button class="btn btn-outline-dark" id="adminDropdownMenu" ngbDropdownToggle>Admin</button>
             <div ngbDropdownMenu aria-labelledby="adminDropdownMenu">
-                <a *ngIf="user.role == 1" href="/users">
-                    <button ngbDropdownItem>Users</button>
-                </a>
-                <a *ngIf="user.role == 1" href="/drugs">
+                <a *ngIf="user.role == 1" routerLink="/drugs">
                     <button ngbDropdownItem>Drugs</button>
                 </a>
                 <a *ngIf="user.role == 1" routerLink="/departments-and-rooms">
