@@ -4,6 +4,7 @@ import {MatTableDataSource} from '@angular/material';
 import {AppointmentsService} from "../../../shared/service/appointments.service";
 import {UserService} from "../../auth/shared/user.service";
 import {RoomsService} from "../../../shared/service/rooms.service";
+import {DoctorsService} from "../../../shared/service/doctors.service";
 import {DepartmentsService} from "../../../shared/service/departments.service";
 import User from "../../auth/shared/user.model";
 import {Room} from "../../../shared/model/Room";
@@ -20,14 +21,26 @@ export class AppointmentsComponent implements OnInit {
     appointments: Appointment[];
     users : User[];
     rooms:Room[];
+    doctors: User[] =new Array<User>();
     displayedColumns: string[] = ['date', 'room', 'doctor', 'patient', 'status'];
     displayedColumnsDoctor: string[] = ['date', 'room', 'doctor', 'patient', 'status', 'change'];
     dataSource: MatTableDataSource<Appointment>;
     currentUser:User;
     isDoctor:boolean;
+    appointment: Appointment = new Appointment();
+    isModalShow:boolean = false;
 
     constructor(private appointmentsService: AppointmentsService, private userService:UserService,
-                private roomService: RoomsService) {
+                private roomService: RoomsService, private doctorsService:DoctorsService) {
+    }
+
+    hide(){
+        // this.isModalShow = false;
+        window.location.reload();
+    }
+
+    showModal(){
+        this.isModalShow = true;
     }
 
     getAppoinments(): void {
@@ -37,6 +50,15 @@ export class AppointmentsComponent implements OnInit {
                 this.appointments = appointments.sort((a,b) => a.id - b.id);
                 this.dataSource = new MatTableDataSource(this.appointments);
             });
+    }
+
+    createAppointment(){
+        this.appointment.patient=this.currentUser.id;
+        this.appointment.room = this.rooms[0].id.toString();
+        this.appointment.approved="pending";
+        this.appointment.date = this.appointment.date;
+        this.appointmentsService.addAppointment(this.appointment);
+        // this.ngOnInit();
     }
 
     getUsers(): void {
@@ -53,6 +75,19 @@ export class AppointmentsComponent implements OnInit {
                 this.rooms = rooms;
                 console.log(rooms);
             });
+    }
+
+    getDoctors():void{
+        this.doctorsService.getDoctors().subscribe(doctors=>
+        {
+            console.log(doctors);
+            doctors.forEach(doctor =>{
+                this.doctors.push(
+                    this.users.find(user => user.id == doctor.id)
+                );
+                console.log(this.doctors);
+            })
+        });
     }
 
     ngOnInit() {
@@ -78,6 +113,7 @@ export class AppointmentsComponent implements OnInit {
         this.getCurrentUser();
         this.getUsers();
         this.getRooms();
+        this.getDoctors();
     }
 
     changeStatus(appointment:Appointment){
