@@ -10,6 +10,10 @@ html {
     font-size: 13px;
 }
 
+.cdk-global-overlay-wrapper, .cdk-overlay-container {
+    z-index: 99999 !important;
+}
+
 ::-webkit-scrollbar {
     width: 5px;
 }

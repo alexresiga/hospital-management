@@ -21,6 +21,15 @@ export class AppointmentsService {
     constructor(private http: HttpClient) {
     }
 
+    addAppointment(appointment:Appointment){
+        this.http.post('http://localhost:8080/api/appointment', appointment, httpOptions).subscribe(
+            result => {
+               console.log(result);
+            },
+            () => {}
+        );
+    }
+
     getMyAppointments(user:User): Observable<Appointment[]> { //tre sa fie observable
         if(user.role == 1){
             console.log("am ajuns aici");
@@ -37,7 +46,7 @@ export class AppointmentsService {
     changeStatus(appointment:Appointment){
         var newStatus :String;
         if(appointment.approved=='approved'){
-            newStatus = 'not_approved';
+            newStatus = 'pending';
         }
         else{
             newStatus='approved';

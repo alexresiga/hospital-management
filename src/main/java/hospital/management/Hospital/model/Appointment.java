@@ -1,6 +1,7 @@
 package hospital.management.Hospital.model;
 
 import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -27,6 +28,7 @@ public class Appointment {
     @JoinColumn(name = "patient_id", referencedColumnName = "id")
     private User patient;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDate date;
 
     @ManyToOne

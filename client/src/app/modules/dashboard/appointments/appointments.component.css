@@ -47,3 +47,13 @@ button#remove {
     text-align: right;
     color: var(--danger);
 }
+
+.cdk-global-overlay-wrapper, .cdk-overlay-container {
+    z-index: 99999 !important;
+}
+
+::ng-deep .mat-icon{
+    height:48px !important;
+    width:48px !important;
+    font-size:48px !important;
+}
