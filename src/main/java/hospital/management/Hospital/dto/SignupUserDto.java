@@ -13,6 +13,6 @@ import java.io.Serializable;
 @Builder
 public class SignupUserDto implements Serializable {
     private String password;
-    private String fullName;
+    private String full_name;
     private String email;
 }

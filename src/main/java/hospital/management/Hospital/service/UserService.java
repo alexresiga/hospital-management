@@ -85,7 +85,7 @@ public class UserService {
             return ErrorMessage.builder().error(true).errorMessage("E-mail already registered.").build();
         }
 
-        createUser(userDto.getFullName(), userDto.getEmail(), userDto.getPassword(), role.get().getId());
+        createUser(userDto.getFull_name(), userDto.getEmail(), userDto.getPassword(), role.get().getId());
         return ErrorMessage.builder().error(false).build();
     }
 
