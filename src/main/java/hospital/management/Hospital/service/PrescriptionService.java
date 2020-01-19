@@ -36,6 +36,7 @@ public class PrescriptionService {
     public List<PrescriptionDto> findAllPrescriptions() {
         return prescriptionRepository.findAll().stream()
                 .map(presc -> prescriptionRepository.getDrugsFromPrescription(presc.getId()))
+                .filter(Objects::nonNull)
                 .map(PrescriptionConverter::convertPrescriptionToDto)
                 .collect(Collectors.toList());
     }
@@ -96,6 +97,7 @@ public class PrescriptionService {
         if(patient == null || doctor == null ){
             throw new ExceptionClass("Invalid data for the prescription!");
         }
+        System.out.println(prescriptionDto);
         Set<Drug> drugs = new HashSet<>();
         if (prescriptionDto.getDrugs() != null) {
             drugs = prescriptionDto.getDrugs().stream()
