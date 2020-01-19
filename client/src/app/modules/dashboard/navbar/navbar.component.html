@@ -28,13 +28,13 @@
 		<li ngbDropdown class="nav-item d-inline-block my-2 my-lg-auto">
             <button class="btn btn-outline-dark" id="adminDropdownMenu" ngbDropdownToggle>Admin</button>
             <div ngbDropdownMenu aria-labelledby="adminDropdownMenu">
-                <a href="/users">
+                <a *ngIf="user.role == 1" href="/users">
                     <button ngbDropdownItem>Users</button>
                 </a>
-                <a href="/drugs">
+                <a *ngIf="user.role == 1" href="/drugs">
                     <button ngbDropdownItem>Drugs</button>
                 </a>
-                <a routerLink="/departments-and-rooms">
+                <a *ngIf="user.role == 1" routerLink="/departments-and-rooms">
                     <button ngbDropdownItem>Departments and Rooms</button>
                 </a>
                 <a routerLink="/doctors">

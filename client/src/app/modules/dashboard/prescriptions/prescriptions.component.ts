@@ -5,6 +5,7 @@ import {Appointment} from "../../../shared/model/Appointment";
 import {PrescriptionsService} from "../../../shared/service/prescriptions.service";
 import {Drug} from "../../../shared/model/Drug";
 import {User} from "../../../shared/model/User";
+import {UserService} from "../../auth/shared/user.service";
 
 @Component({
   selector: 'app-prescriptions',
@@ -16,12 +17,13 @@ export class PrescriptionsComponent implements OnInit {
   appointments: Appointment[];
   drugs: Drug[];
   patients: User[];
+  currentUser: User;
   selectedDrugs: Array<number> = new Array<number>();
   displayedColumns: string[] = ['doctor', 'patient', 'note', 'drugs'];
   dataSource: MatTableDataSource<Prescription>;
 
 
-  constructor(private prescriptionService: PrescriptionsService) { }
+  constructor(private prescriptionService: PrescriptionsService, private userService: UserService) { }
 
   ngOnInit() {
     this.loadAppointmentsAndPrescriptionsAndDrugs();
@@ -48,7 +50,12 @@ export class PrescriptionsComponent implements OnInit {
           .subscribe(prescriptions =>{
             console.log(prescriptions);
             this.prescriptions = prescriptions;
-            this.dataSource = new MatTableDataSource<Prescription>(prescriptions);
+            console.log(this.currentUser);
+            if (this.currentUser.role == 2) {
+                this.prescriptions = this.prescriptions.filter(pres => {return pres.patient == this.currentUser.id});
+            }
+            console.log(this.prescriptions);
+            this.dataSource = new MatTableDataSource<Prescription>(this.prescriptions);
           });
   }
 
@@ -92,12 +99,17 @@ export class PrescriptionsComponent implements OnInit {
 
   getPatients() : void {
       this.prescriptionService.getPatients().subscribe(patients => {
+          console.log(patients);
           this.patients = patients;
       });
   }
 
-  loadAppointmentsAndPrescriptionsAndDrugs() : void{
+    getCurrentUser(): void {
+        this.userService.getCurrentUser().subscribe(user => this.currentUser = user);
+    }
 
+  loadAppointmentsAndPrescriptionsAndDrugs() : void{
+    this.getCurrentUser();
     this.getDrugs();
     this.getPatients();
     this.getAppointments();

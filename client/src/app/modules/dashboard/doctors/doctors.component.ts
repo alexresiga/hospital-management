@@ -33,7 +33,11 @@ export class DoctorsComponent implements OnInit {
 
   getDoctorPhoneNumber(doctor_id: number): string {
     for (let user of this.users) {
-      if (user.id == doctor_id) return user.phone_number;
+      if (user.id == doctor_id) {
+        if (user.phone_number != null) {
+          return user.phone_number;
+        }
+      }
     }
     return "";
   }
