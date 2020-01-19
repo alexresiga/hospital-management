@@ -53,7 +53,7 @@ button#remove {
 }
 
 ::ng-deep .mat-icon{
-    height:48px !important;
-    width:48px !important;
-    font-size:48px !important;
+    height:30px !important;
+    width:30px !important;
+    font-size:30px !important;
 }
