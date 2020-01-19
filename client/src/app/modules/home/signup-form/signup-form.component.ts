@@ -90,7 +90,7 @@ export class SignupFormComponent implements OnInit {
         if (this.isFormValid()) {
             this.isLoading = true;
             this.store.dispatch(new SignupUser({
-                fullName: this.form.get('fullName').value,
+                full_name: this.form.get('fullName').value,
                 email: this.form.get('email').value,
                 password: this.form.get('password').value
             }));
