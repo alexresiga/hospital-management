@@ -1,7 +1,9 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import { Drug } from 'src/app/shared/model/Drug';
 import { MatTableDataSource } from '@angular/material';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import * as $ from 'jquery';
 
 const httpOptions = {
   headers: new HttpHeaders({'Content-Type': 'application/json'}),
@@ -16,10 +18,14 @@ const httpOptions = {
 export class DrugsComponent implements OnInit {
   drugs: Drug[];
   drug: Drug = new Drug();
-  dataSource: MatTableDataSource<Drug>;
-  displayedColumns: string[] = ['name', 'edit', 'delete'];
+  @ViewChild('newDrugName', {static: false}) newDrugNameInput;
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private modalService: NgbModal
+  ) {
+
+  }
 
   ngOnInit() {
     this.getDrugs();
@@ -34,13 +40,21 @@ export class DrugsComponent implements OnInit {
     );
   }
 
-  addDrug() {
-    this.http.post('http://localhost:8080/api/drug', this.drug, httpOptions).subscribe(
+  addDrug(event) {
+    event.preventDefault();
+
+    const drugName: string = this.newDrugNameInput.nativeElement.value;
+    console.log(drugName);
+
+    if (drugName.trim()) {
+      this.http.post('http://localhost:8080/api/drug', JSON.stringify({name: drugName}), httpOptions).subscribe(
       () => {
         this.getDrugs();
       },
       () => {}
     );
+    }
+
   }
 
   deleteDrug(id: any) {
@@ -55,13 +69,14 @@ export class DrugsComponent implements OnInit {
   editDrug() {
     this.http.put('http://localhost:8080/api/drug/' + this.drug.id, this.drug, httpOptions).subscribe(
       () => {
+        this.drug = new Drug();
         this.getDrugs();
       },
       () => {}
     );
   }
 
-  setDrugId(id: any) {
-    this.drug.id = id;
+  setDrug(drug: Drug) {
+    this.drug = drug;
   }
 }
