@@ -4,7 +4,7 @@ export class UserLoginInput {
 }
 
 export class UserSignupInput {
-  fullName: string;
+  full_name: string;
   email: string;
   password: string;
 }
