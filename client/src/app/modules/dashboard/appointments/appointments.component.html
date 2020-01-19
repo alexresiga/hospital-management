@@ -2,7 +2,7 @@
 
 <mat-tab-group mat-align-tabs="center" id="main">
     <mat-tab label="MyAppointments">
-        <mat-grid-list cols="1" rowHeight="2:1">
+        <mat-grid-list cols="1" rowHeight="1.7:1">
             <mat-grid-tile>
                 <div *ngIf="isDoctor" class="example-container filter">
 
@@ -41,6 +41,9 @@
                     </table>
                 </div>
                 <div *ngIf="!isDoctor" class="example-container filter">
+                    <br>
+                    <br>
+                    <br>
                     <button mat-icon-button color="primary"
                             type="button"
                             data-toggle="modal"
@@ -82,6 +85,7 @@
                         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
                     </table>
+
                 </div>
             </mat-grid-tile>
 
